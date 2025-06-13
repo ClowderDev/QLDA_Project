@@ -1,7 +1,10 @@
 package com.example.QLDA_Project.configuration;
 
 import com.example.QLDA_Project.model.Role;
+import com.example.QLDA_Project.model.User;
 import com.example.QLDA_Project.repository.RoleRepository;
+import com.example.QLDA_Project.repository.UserRepository;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,9 +13,11 @@ import org.springframework.context.annotation.Configuration;
 public class DataLoader {
 
     private final RoleRepository roleRepository;
+    private final UserRepository userRepository;
 
-    public DataLoader(RoleRepository roleRepository) {
+    public DataLoader(RoleRepository roleRepository, UserRepository userRepository) {
         this.roleRepository = roleRepository;
+        this.userRepository = userRepository;
     }
 
     @Bean
@@ -32,6 +37,31 @@ public class DataLoader {
             }
             if (roleRepository.findByName(Role.RoleName.CANDIDATE).isEmpty()) {
                 roleRepository.save(new Role(null, Role.RoleName.CANDIDATE, null));
+            }
+
+            if(userRepository.findByUsername("adminUser").isEmpty()){
+                User adminUser = new User();
+                adminUser.setUsername("adminUser");
+                adminUser.setPassword("123");
+                adminUser.setEnabled(true);
+                adminUser.addRole(roleRepository.findByName(Role.RoleName.ADMIN).orElseThrow());
+                userRepository.save(adminUser);
+            }
+            if (userRepository.findByUsername("hrUser").isEmpty()) {
+                User hrUser = new User();
+                hrUser.setUsername("hrUser");
+                hrUser.setPassword("123");
+                hrUser.setEnabled(true);
+                hrUser.addRole(roleRepository.findByName(Role.RoleName.HR_STAFF).orElseThrow());
+                userRepository.save(hrUser);
+            }
+            if(userRepository.findByUsername("normalUser").isEmpty()){
+                User normalUser = new User();
+                normalUser.setUsername("normalUser");
+                normalUser.setPassword("123");
+                normalUser.setEnabled(true);
+                normalUser.addRole(roleRepository.findByName(Role.RoleName.CANDIDATE).orElseThrow());
+                userRepository.save(normalUser);
             }
         };
     }
