@@ -40,83 +40,180 @@
             padding: 0 20px;
         }
 
-        /* Header */
-        .header {
+        /* Header Styles */
+        .main-header {
             background-color: var(--white);
             border-bottom: 1px solid var(--gray-200);
-            padding: 1rem 0;
             position: sticky;
             top: 0;
-            z-index: 100;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
-        .nav {
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            height: 70px;
         }
 
-        .logo {
-            font-size: 1.5rem;
+        .header-logo {
+            font-size: 1.75rem;
             font-weight: 800;
             color: var(--black);
             text-decoration: none;
+            transition: opacity 0.2s;
+        }
+
+        .header-logo:hover {
+            opacity: 0.8;
+        }
+
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 2rem;
+            gap: 1.5rem;
+            margin: 0;
         }
 
         .nav-links a {
             color: var(--gray-700);
             text-decoration: none;
             font-weight: 500;
+            padding: 0.5rem 0;
             transition: color 0.2s;
+            position: relative;
         }
 
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links a.active {
             color: var(--black);
+        }
+
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background-color: var(--black);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn-login {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 0.5rem 1.5rem;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+
+        .btn-login:hover {
+            background-color: var(--gray-800);
         }
 
         /* Hero Section */
         .hero {
-            background-color: var(--black);
+            background: linear-gradient(135deg, var(--black) 0%, var(--gray-800) 100%);
             color: var(--white);
-            padding: 5rem 0;
+            padding: 6rem 0;
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
 
         .hero h1 {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: 800;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
             line-height: 1.2;
         }
 
         .hero .subtitle {
-            font-size: 1.25rem;
+            font-size: 1.375rem;
             margin-bottom: 3rem;
             color: var(--gray-300);
+            font-weight: 500;
         }
 
         .highlight {
-            color: var(--white);
-            background: linear-gradient(45deg, var(--gray-400), var(--gray-200));
+            background: linear-gradient(45deg, var(--white), var(--gray-300));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            font-weight: 900;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--white);
+            display: block;
+        }
+
+        .hero-stat-label {
+            font-size: 0.875rem;
+            color: var(--gray-300);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
         }
 
         /* Search Form */
         .search-form {
             background-color: var(--white);
-            border-radius: 12px;
-            padding: 2rem;
+            border-radius: 16px;
+            padding: 2.5rem;
             margin: 0 auto 2rem;
-            max-width: 800px;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 900px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transform: translateY(-50px);
+            position: relative;
+            z-index: 2;
         }
 
         .search-grid {
@@ -124,27 +221,37 @@
             grid-template-columns: 1fr 1fr auto;
             gap: 1rem;
             align-items: end;
+            margin-bottom: 2rem;
         }
 
         .form-group {
             position: relative;
         }
 
+        .form-label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--black);
+            margin-bottom: 0.5rem;
+        }
+
         .form-group i {
             position: absolute;
             left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
+            bottom: 1rem;
             color: var(--gray-400);
+            z-index: 1;
         }
 
         .form-input {
             width: 100%;
             padding: 1rem 1rem 1rem 3rem;
             border: 2px solid var(--gray-200);
-            border-radius: 8px;
+            border-radius: 12px;
             font-size: 1rem;
             transition: border-color 0.2s;
+            background-color: var(--white);
         }
 
         .form-input:focus {
@@ -152,29 +259,42 @@
             border-color: var(--black);
         }
 
+        .form-input::placeholder {
+            color: var(--gray-500);
+        }
+
         .btn-primary {
             background-color: var(--black);
             color: var(--white);
             border: none;
             padding: 1rem 2rem;
-            border-radius: 8px;
-            font-weight: 600;
+            border-radius: 12px;
+            font-weight: 700;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
+            font-size: 1rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .btn-primary:hover {
             background-color: var(--gray-800);
+            transform: translateY(-2px);
         }
 
         /* Popular Tags */
         .popular-tags {
-            margin-top: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
         }
 
         .popular-tags span {
-            color: var(--gray-400);
-            margin-right: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--gray-700);
         }
 
         .tag {
@@ -184,14 +304,17 @@
             padding: 0.5rem 1rem;
             border-radius: 20px;
             text-decoration: none;
-            margin: 0 0.5rem 0.5rem 0;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
+            font-weight: 600;
             transition: all 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .tag:hover {
             background-color: var(--black);
             color: var(--white);
+            transform: translateY(-1px);
         }
 
         /* Section */
@@ -201,59 +324,84 @@
 
         .section-title {
             text-align: center;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
         }
 
         .section-title h2 {
-            font-size: 2.5rem;
-            font-weight: 700;
+            font-size: 2.75rem;
+            font-weight: 800;
             margin-bottom: 1rem;
             color: var(--black);
         }
 
         .section-title p {
-            font-size: 1.125rem;
+            font-size: 1.25rem;
             color: var(--gray-600);
+            font-weight: 500;
         }
 
         /* Categories Grid */
         .categories-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 2rem;
         }
 
         .category-card {
             background-color: var(--white);
-            border: 2px solid var(--gray-100);
-            border-radius: 12px;
-            padding: 2rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 2.5rem;
             text-align: center;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.05), transparent);
+            transition: left 0.5s;
+        }
+
+        .category-card:hover::before {
+            left: 100%;
         }
 
         .category-card:hover {
             border-color: var(--black);
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
         }
 
         .category-card i {
-            font-size: 3rem;
+            font-size: 3.5rem;
             color: var(--black);
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s;
+        }
+
+        .category-card:hover i {
+            transform: scale(1.1);
         }
 
         .category-card h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+            font-size: 1.375rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
             color: var(--black);
         }
 
         .category-card p {
             color: var(--gray-600);
-            font-size: 0.875rem;
+            font-size: 1rem;
+            font-weight: 500;
         }
 
         /* Steps Section */
@@ -263,260 +411,329 @@
 
         .steps-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 3rem;
         }
 
         .step {
             text-align: center;
+            position: relative;
         }
 
         .step-number {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 4rem;
-            height: 4rem;
+            width: 5rem;
+            height: 5rem;
             background-color: var(--black);
             color: var(--white);
             border-radius: 50%;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 1rem;
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            position: relative;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .step-number::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 100%;
+            width: 100px;
+            height: 2px;
+            background-color: var(--gray-300);
+            transform: translateY(-50%);
+            z-index: -1;
+        }
+
+        .step:last-child .step-number::after {
+            display: none;
         }
 
         .step h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+            font-size: 1.375rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
             color: var(--black);
         }
 
         .step p {
             color: var(--gray-600);
+            font-size: 1rem;
+            line-height: 1.6;
         }
 
-        /* Job Filters */
-        .job-filters {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 3rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-toggle {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            cursor: pointer;
-        }
-
-        .toggle-switch {
-            position: relative;
-            width: 50px;
-            height: 24px;
-            background-color: var(--gray-300);
-            border-radius: 12px;
-            transition: background-color 0.2s;
-        }
-
-        .toggle-switch.active {
-            background-color: var(--black);
-        }
-
-        .toggle-slider {
-            position: absolute;
-            top: 2px;
-            left: 2px;
-            width: 20px;
-            height: 20px;
-            background-color: var(--white);
-            border-radius: 50%;
-            transition: transform 0.2s;
-        }
-
-        .toggle-switch.active .toggle-slider {
-            transform: translateX(26px);
-        }
-
-        /* Job Cards */
+        /* Jobs Section */
         .jobs-grid {
             display: grid;
-            gap: 1.5rem;
+            gap: 2rem;
         }
 
         .job-card {
             background-color: var(--white);
-            border: 2px solid var(--gray-100);
-            border-radius: 12px;
+            border: 2px solid var(--gray-200);
+            border-radius: 16px;
             padding: 2rem;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .job-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--black), var(--gray-600));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .job-card:hover::before {
+            transform: scaleX(1);
         }
 
         .job-card:hover {
             border-color: var(--black);
-            transform: translateY(-2px);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
         .job-header {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            margin-bottom: 1rem;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
         }
 
         .company-logo {
-            width: 60px;
-            height: 60px;
+            width: 70px;
+            height: 70px;
             background-color: var(--gray-100);
-            border-radius: 8px;
+            border: 2px solid var(--gray-200);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--gray-600);
+            font-size: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .company-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .job-info {
+            flex: 1;
         }
 
         .job-info h3 {
-            font-size: 1.25rem;
-            font-weight: 600;
-            margin-bottom: 0.25rem;
+            font-size: 1.375rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
             color: var(--black);
+            line-height: 1.3;
         }
 
         .job-info p {
             color: var(--gray-600);
-            font-size: 0.875rem;
+            font-size: 1rem;
+            font-weight: 500;
         }
 
         .job-details {
-            display: flex;
-            gap: 2rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
         }
 
         .job-detail {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             color: var(--gray-600);
             font-size: 0.875rem;
         }
 
         .job-detail i {
             color: var(--black);
+            width: 16px;
+            text-align: center;
         }
 
         .job-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 1rem;
         }
 
         .job-type {
             padding: 0.5rem 1rem;
             border-radius: 20px;
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
-        }
-
-        .job-type.full-time {
-            background-color: var(--gray-100);
-            color: var(--gray-700);
-        }
-
-        .job-type.part-time {
+            letter-spacing: 0.5px;
             background-color: var(--gray-200);
             color: var(--gray-800);
         }
 
-        .job-type.freelance {
+        .job-type.full-time {
+            background-color: var(--black);
+            color: var(--white);
+        }
+
+        .job-type.part-time {
             background-color: var(--gray-300);
             color: var(--gray-900);
+        }
+
+        .job-type.freelance {
+            background-color: var(--gray-400);
+            color: var(--white);
         }
 
         .btn-apply {
             background-color: var(--black);
             color: var(--white);
             border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 6px;
+            padding: 0.875rem 1.75rem;
+            border-radius: 8px;
             font-weight: 600;
             cursor: pointer;
-            transition: background-color 0.2s;
+            transition: all 0.2s;
             text-decoration: none;
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
         }
 
         .btn-apply:hover {
             background-color: var(--gray-800);
+            transform: translateY(-1px);
         }
 
         /* Cities Grid */
         .cities-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
         }
 
         .city-card {
-            background-color: var(--gray-100);
-            border-radius: 12px;
+            background: linear-gradient(135deg, var(--gray-100) 0%, var(--gray-200) 100%);
+            border-radius: 16px;
             padding: 3rem 2rem;
             text-align: center;
-            transition: all 0.3s;
+            transition: all 0.3s ease;
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .city-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, var(--black) 0%, var(--gray-800) 100%);
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .city-card:hover::before {
+            opacity: 1;
         }
 
         .city-card:hover {
-            background-color: var(--black);
-            color: var(--white);
-            transform: translateY(-5px);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .city-card h3,
+        .city-card p {
+            position: relative;
+            z-index: 1;
+            transition: color 0.3s;
         }
 
         .city-card h3 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
+            font-size: 1.75rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: var(--black);
         }
 
         .city-card p {
-            opacity: 0.8;
+            color: var(--gray-600);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .city-card:hover h3,
+        .city-card:hover p {
+            color: var(--white);
         }
 
         /* Testimonials */
         .testimonials-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 2rem;
         }
 
         .testimonial-card {
             background-color: var(--white);
-            border: 2px solid var(--gray-100);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s;
+            border: 2px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .testimonial-card::before {
+            content: '"';
+            position: absolute;
+            top: -10px;
+            left: 2rem;
+            font-size: 4rem;
+            color: var(--gray-200);
+            font-family: serif;
+            line-height: 1;
         }
 
         .testimonial-card:hover {
             border-color: var(--black);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
         }
 
         .testimonial-card h4 {
-            font-size: 1.25rem;
-            font-weight: 600;
+            font-size: 1.375rem;
+            font-weight: 700;
             margin-bottom: 1rem;
             color: var(--black);
         }
 
         .testimonial-card p {
             color: var(--gray-600);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+            font-size: 1rem;
         }
 
         .testimonial-author {
@@ -526,60 +743,342 @@
         }
 
         .author-avatar {
-            width: 50px;
-            height: 50px;
-            background-color: var(--gray-200);
+            width: 60px;
+            height: 60px;
+            background-color: var(--black);
+            color: var(--white);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            color: var(--gray-600);
+            font-weight: 700;
+            font-size: 1.25rem;
         }
 
         .author-info h5 {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--black);
+            font-size: 1.125rem;
         }
 
         .author-info span {
             color: var(--gray-600);
             font-size: 0.875rem;
+            font-weight: 500;
         }
 
-        /* Footer */
-        .footer {
-            background-color: var(--black);
-            color: var(--white);
-            padding: 3rem 0 1rem;
+        /* Featured Companies */
+        .featured-companies {
+            padding: 5rem 0;
+            background-color: var(--gray-50);
+        }
+
+        .company-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .company-card {
+            background-color: var(--white);
+            border: 2px solid var(--gray-200);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .company-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--black), var(--gray-600));
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .company-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .company-card:hover {
+            border-color: var(--black);
+            transform: translateY(-6px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .company-header {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .company-header .company-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 12px;
+            background-color: var(--gray-100);
+            border: 2px solid var(--gray-200);
+            padding: 0.5rem;
+            object-fit: contain;
+        }
+
+        .company-header h3 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            margin: 0;
+            line-height: 1.3;
+        }
+
+        .company-header h3 a {
+            color: var(--black);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .company-header h3 a:hover {
+            color: var(--gray-700);
+        }
+
+        .company-details {
+            margin-bottom: 2rem;
+        }
+
+        .company-description {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+            margin-bottom: 1.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.6;
+        }
+
+        .company-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            font-size: 0.875rem;
+            color: var(--gray-600);
+        }
+
+        .company-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .company-meta i {
+            color: var(--black);
+            width: 14px;
             text-align: center;
         }
 
-        .footer p {
-            color: var(--gray-400);
+        .company-footer {
+            text-align: center;
         }
 
-        /* Responsive */
+        .btn-secondary {
+            display: inline-block;
+            padding: 0.875rem 2rem;
+            background-color: var(--white);
+            color: var(--black);
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--black);
+            color: var(--white);
+            border-color: var(--black);
+            transform: translateY(-1px);
+        }
+
+        /* No Jobs Message */
+        .no-jobs-message {
+            text-align: center;
+            padding: 4rem 2rem;
+            background-color: var(--gray-50);
+            border: 2px dashed var(--gray-200);
+            border-radius: 16px;
+            color: var(--gray-600);
+        }
+
+        .no-jobs-message i {
+            font-size: 4rem;
+            color: var(--gray-400);
+            margin-bottom: 1.5rem;
+        }
+
+        .no-jobs-message h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 1rem;
+        }
+
+        .no-jobs-message p {
+            font-size: 1.125rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        .main-footer {
+            background-color: var(--black);
+            color: var(--white);
+            padding: 4rem 0 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--white);
+        }
+
+        .footer-section p {
+            color: var(--gray-300);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--gray-300);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--white);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            background-color: var(--gray-800);
+            color: var(--white);
+            border-radius: 50%;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .social-links a:hover {
+            background-color: var(--gray-700);
+            transform: translateY(-2px);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid var(--gray-800);
+            padding-top: 2rem;
+            text-align: center;
+        }
+
+        .footer-bottom p {
+            color: var(--gray-400);
+            font-size: 0.875rem;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
             .hero h1 {
-                font-size: 2rem;
+                font-size: 2.5rem;
+            }
+
+            .hero .subtitle {
+                font-size: 1.125rem;
+            }
+
+            .hero-stats {
+                gap: 2rem;
             }
 
             .search-grid {
                 grid-template-columns: 1fr;
+                gap: 1.5rem;
             }
 
             .section-title h2 {
-                font-size: 2rem;
+                font-size: 2.25rem;
             }
 
             .nav-links {
                 display: none;
             }
 
+            .header-container {
+                padding: 0 15px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .header-container {
+                padding: 0 15px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .categories-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step-number::after {
+                display: none;
+            }
+
             .job-details {
-                flex-direction: column;
-                gap: 0.5rem;
+                grid-template-columns: 1fr;
+                gap: 0.75rem;
             }
 
             .job-footer {
@@ -587,25 +1086,86 @@
                 gap: 1rem;
                 align-items: flex-start;
             }
+
+            .cities-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .company-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .search-form {
+                padding: 2rem;
+                transform: translateY(-30px);
+            }
         }
 
-        .hidden {
-            display: none;
+        @media (max-width: 480px) {
+            .hero {
+                padding: 4rem 0;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .search-form {
+                padding: 1.5rem;
+                margin: 0 auto 1rem;
+            }
+
+            .category-card {
+                padding: 2rem;
+            }
+
+            .job-card {
+                padding: 1.5rem;
+            }
+
+            .company-card {
+                padding: 1.5rem;
+            }
+
+            .testimonial-card {
+                padding: 2rem;
+            }
+        }
+
+        /* Animation Classes */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <nav class="nav">
-                <a href="#" class="logo">TalentHub</a>
+    <header class="main-header">
+        <div class="header-container">
+            <a href="/" class="header-logo">TalentHub</a>
+            
+            <nav class="header-nav">
                 <ul class="nav-links">
-                    <li><a href="#jobs">Jobs</a></li>
-                    <li><a href="#companies">Companies</a></li>
+                    <li><a href="/" class="active">Home</a></li>
+                    <li><a href="/jobs">Jobs</a></li>
+                    <li><a href="/companies">Companies</a></li>
                     <li><a href="#about">About</a></li>
-                    <li><a href="/login">Login/Signup</a></li>
                 </ul>
+                
+                <div class="header-actions">
+                    <a href="/login" class="btn-login">Login / Sign Up</a>
+                </div>
             </nav>
         </div>
     </header>
@@ -613,33 +1173,55 @@
     <!-- Hero Section -->
     <section class="hero">
         <div class="container">
-            <h1>Find <span class="highlight">93,178</span> job opportunities<br>waiting for you!</h1>
-            <p class="subtitle">Search for jobs & career opportunities</p>
+            <div class="hero-content">
+                <h1>Find <span class="highlight">93,178</span> job opportunities<br>waiting for you!</h1>
+                <p class="subtitle">Search for jobs & career opportunities from top companies worldwide</p>
 
-            <!-- Search Form -->
-            <div class="search-form">
-                <form class="search-grid">
-                    <div class="form-group">
-                        <i class="fas fa-search"></i>
-                        <input type="text" class="form-input" placeholder="Job title, keywords, or company" name="keyword">
-                    </div>
-                    <div class="form-group">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <input type="text" class="form-input" placeholder="City or location" name="location">
-                    </div>
-                    <button type="submit" class="btn-primary">Find Jobs</button>
-                </form>
+                <!-- Search Form -->
+                <div class="search-form">
+                    <form th:action="@{/jobs}" method="get" class="search-grid">
+                        <div class="form-group">
+                            <label class="form-label">What</label>
+                            <i class="fas fa-search"></i>
+                            <input type="text" class="form-input" placeholder="Job title, keywords, or company" name="keyword" th:value="${param.keyword}">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Where</label>
+                            <i class="fas fa-map-marker-alt"></i>
+                            <input type="text" class="form-input" placeholder="City or location" name="location" th:value="${param.location}">
+                        </div>
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-search"></i>
+                            Find Jobs
+                        </button>
+                    </form>
 
-                <!-- Popular Tags -->
-                <div class="popular-tags">
-                    <span>Popular searches:</span>
-                    <a href="#" class="tag">Designer</a>
-                    <a href="#" class="tag">Developer</a>
-                    <a href="#" class="tag">Web</a>
-                    <a href="#" class="tag">iOS</a>
-                    <a href="#" class="tag">PHP</a>
-                    <a href="#" class="tag">Senior</a>
-                    <a href="#" class="tag">Engineer</a>
+                    <!-- Popular Tags -->
+                    <div class="popular-tags">
+                        <span>Popular searches:</span>
+                        <a th:href="@{/jobs(keyword='Designer')}" class="tag">Designer</a>
+                        <a th:href="@{/jobs(keyword='Developer')}" class="tag">Developer</a>
+                        <a th:href="@{/jobs(keyword='Web')}" class="tag">Web</a>
+                        <a th:href="@{/jobs(keyword='iOS')}" class="tag">iOS</a>
+                        <a th:href="@{/jobs(keyword='PHP')}" class="tag">PHP</a>
+                        <a th:href="@{/jobs(keyword='Senior')}" class="tag">Senior</a>
+                        <a th:href="@{/jobs(keyword='Engineer')}" class="tag">Engineer</a>
+                    </div>
+                </div>
+
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <span class="hero-stat-number">93K+</span>
+                        <span class="hero-stat-label">Job Opportunities</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-number">500+</span>
+                        <span class="hero-stat-label">Top Companies</span>
+                    </div>
+                    <div class="hero-stat">
+                        <span class="hero-stat-number">50K+</span>
+                        <span class="hero-stat-label">Happy Candidates</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -648,38 +1230,38 @@
     <!-- Job Categories -->
     <section class="section">
         <div class="container">
-            <div class="section-title">
+            <div class="section-title fade-in">
                 <h2>Popular Job Categories</h2>
-                <p>2025 jobs - 293 new jobs today</p>
+                <p>2025 jobs live - 293 added today</p>
             </div>
 
             <div class="categories-grid">
-                <div class="category-card">
+                <div class="category-card fade-in">
                     <i class="fas fa-calculator"></i>
                     <h3>Accounting & Finance</h3>
                     <p>2 open positions</p>
                 </div>
-                <div class="category-card">
+                <div class="category-card fade-in">
                     <i class="fas fa-bullhorn"></i>
                     <h3>Marketing</h3>
                     <p>86 open positions</p>
                 </div>
-                <div class="category-card">
+                <div class="category-card fade-in">
                     <i class="fas fa-paint-brush"></i>
                     <h3>Design</h3>
                     <p>43 open positions</p>
                 </div>
-                <div class="category-card">
+                <div class="category-card fade-in">
                     <i class="fas fa-code"></i>
                     <h3>Information Technology</h3>
                     <p>12 open positions</p>
                 </div>
-                <div class="category-card">
+                <div class="category-card fade-in">
                     <i class="fas fa-users"></i>
                     <h3>Human Resources</h3>
                     <p>55 open positions</p>
                 </div>
-                <div class="category-card">
+                <div class="category-card fade-in">
                     <i class="fas fa-rocket"></i>
                     <h3>Project Management</h3>
                     <p>2 open positions</p>
@@ -691,25 +1273,25 @@
     <!-- Steps Section -->
     <section class="section steps-section">
         <div class="container">
-            <div class="section-title">
+            <div class="section-title fade-in">
                 <h2>Find Your Job in 3 Simple Steps</h2>
             </div>
 
             <div class="steps-grid">
-                <div class="step">
+                <div class="step fade-in">
                     <div class="step-number">01</div>
                     <h3>Create Account</h3>
-                    <p>Create an account to get started with your job search journey</p>
+                    <p>Create an account to get started with your job search journey and access exclusive features</p>
                 </div>
-                <div class="step">
+                <div class="step fade-in">
                     <div class="step-number">02</div>
                     <h3>Explore Jobs</h3>
-                    <p>Discover thousands of job opportunities from top companies</p>
+                    <p>Discover thousands of job opportunities from top companies across various industries</p>
                 </div>
-                <div class="step">
+                <div class="step fade-in">
                     <div class="step-number">03</div>
                     <h3>Apply & Get Hired</h3>
-                    <p>Find the perfect job that matches your skills and interests</p>
+                    <p>Find the perfect job that matches your skills and interests, then apply with confidence</p>
                 </div>
             </div>
         </div>
@@ -718,13 +1300,13 @@
     <!-- Latest Jobs -->
     <section class="section" id="jobs">
         <div class="container">
-            <div class="section-title">
+            <div class="section-title fade-in">
                 <h2>Latest Job Opportunities</h2>
                 <p>Find your dream job from our latest postings</p>
             </div>
 
             <div class="jobs-grid">
-                <div th:each="job : ${recentJobs}" class="job-card">
+                <div th:each="job : ${recentJobs}" class="job-card fade-in">
                     <div class="job-header">
                         <div class="company-logo" th:if="${job.congty.logo != null}">
                             <img th:src="${job.congty.logo}" th:alt="${job.congty.tenCongTy}">
@@ -734,40 +1316,85 @@
                             CO
                         </div>
                         <div class="job-info">
-                            <h3 th:text="${job.tieuDe}">Job Title</h3>
-                            <p th:text="${job.congty.tenCongTy}">Company Name</p>
+                            <h3 th:text="${job.tieuDe}">Senior Software Engineer</h3>
+                            <p th:text="${job.congty.tenCongTy}">Tech Company Inc.</p>
                         </div>
                     </div>
                     <div class="job-details">
                         <div class="job-detail">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span th:text="${job.diaDiemLV + ', ' + job.thanhPhoLV + (job.quocGiaLV != null ? ', ' + job.quocGiaLV : '')}">Location</span>
+                            <span th:text="${job.diaDiemLV + ', ' + job.thanhPhoLV + (job.quocGiaLV != null ? ', ' + job.quocGiaLV : '')}">New York, NY, USA</span>
                         </div>
                         <div class="job-detail">
                             <i class="fas fa-clock"></i>
-                            <span th:text="${#temporals.format(job.ngayDang, 'dd/MM/yyyy')}">Posted Date</span>
+                            <span th:text="'Posted ' + ${#dates.format(job.ngayDang, 'dd/MM/yyyy')}">Posted 15/12/2024</span>
                         </div>
                         <div class="job-detail">
                             <i class="fas fa-money-bill-wave"></i>
-                            <span th:text="${#numbers.formatInteger(job.mucLuong, 0, 'COMMA') + ' VND'}">Salary</span>
+                            <span th:text="${#numbers.formatInteger(job.mucLuong, 0, 'COMMA') + ' VND'}">120,000,000 VND</span>
                         </div>
                     </div>
                     <div class="job-footer">
-                        <span class="job-type" th:text="${job.hinhThucLV}">Job Type</span>
-                        <a th:href="@{/jobs/{id}(id=${job.id})}" class="btn-apply">View Details</a>
+                        <span class="job-type" th:text="${job.hinhThucLV}" th:class="'job-type ' + ${#strings.toLowerCase(#strings.replace(job.hinhThucLV, ' ', '-'))}">Full-time</span>
+                        <a th:href="@{/jobs/{id}(id=${job.id})}" class="btn-apply">
+                            View Details
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
                     </div>
                 </div>
 
                 <!-- No Jobs Message -->
                 <div th:if="${#lists.isEmpty(recentJobs)}" class="no-jobs-message">
-                    <i class="fas fa-briefcase" style="font-size: 3rem; color: var(--gray-400); margin-bottom: 1rem;"></i>
+                    <i class="fas fa-briefcase"></i>
                     <h3>No Jobs Available</h3>
-                    <p>There are currently no job postings available. Please check back later.</p>
+                    <p>There are currently no job postings available. Please check back later for new opportunities.</p>
                 </div>
             </div>
 
             <div style="text-align: center; margin-top: 3rem;">
-                <a th:href="@{/jobs}" class="btn-primary" style="padding: 1rem 2rem;">View All Jobs</a>
+                <a th:href="@{/jobs}" class="btn-primary" style="padding: 1rem 2rem; font-size: 1rem;">
+                    <i class="fas fa-briefcase"></i>
+                    View All Jobs
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Companies Section -->
+    <section class="featured-companies">
+        <div class="container">
+            <div class="section-title fade-in">
+                <h2>Featured Companies</h2>
+                <p>Discover amazing companies looking for talented professionals</p>
+            </div>
+            <div class="company-grid">
+                <div th:each="company : ${featuredCompanies}" class="company-card fade-in">
+                    <div class="company-header">
+                        <img th:if="${company.logo != null}" th:src="${company.logo}" alt="Company Logo" class="company-logo">
+                        <div th:unless="${company.logo != null}" class="company-logo" 
+                             th:text="${#strings.substring(company.tenCongTy,0,2).toUpperCase()}">CO</div>
+                        <h3><a th:href="@{/companies/{id}(id=${company.id})}" th:text="${company.tenCongTy}">Tech Company Inc.</a></h3>
+                    </div>
+                    <div class="company-details">
+                        <p class="company-description" th:text="${company.moTa}">Leading technology company focused on innovation and digital transformation solutions for businesses worldwide.</p>
+                        <div class="company-meta">
+                            <span class="location">
+                                <i class="fas fa-map-marker-alt"></i> 
+                                <span th:text="${company.diaChi}">San Francisco, CA</span>
+                            </span>
+                            <span class="industry">
+                                <i class="fas fa-industry"></i> 
+                                <span th:text="${company.linhVuc}">Technology</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="company-footer">
+                        <a th:href="@{/companies/{id}(id=${company.id})}" class="btn-secondary">
+                            <i class="fas fa-building"></i>
+                            View Company
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -775,25 +1402,25 @@
     <!-- Featured Cities -->
     <section class="section">
         <div class="container">
-            <div class="section-title">
+            <div class="section-title fade-in">
                 <h2>Featured Cities</h2>
                 <p>Try your luck in major cities with great opportunities</p>
             </div>
 
             <div class="cities-grid">
-                <div class="city-card">
+                <div class="city-card fade-in">
                     <h3>New York</h3>
                     <p>12 jobs available</p>
                 </div>
-                <div class="city-card">
+                <div class="city-card fade-in">
                     <h3>Ho Chi Minh</h3>
                     <p>45 jobs available</p>
                 </div>
-                <div class="city-card">
+                <div class="city-card fade-in">
                     <h3>London</h3>
                     <p>23 jobs available</p>
                 </div>
-                <div class="city-card">
+                <div class="city-card fade-in">
                     <h3>Los Angeles</h3>
                     <p>18 jobs available</p>
                 </div>
@@ -804,16 +1431,17 @@
     <!-- Testimonials -->
     <section class="section steps-section">
         <div class="container">
-            <div class="section-title">
-                <h2>User Feedback</h2>
+            <div class="section-title fade-in">
+                <h2>What Our Users Say</h2>
+                <p>Real feedback from professionals who found their dream jobs</p>
             </div>
 
             <div class="testimonials-grid">
-                <div class="testimonial-card">
+                <div class="testimonial-card fade-in">
                     <h4>Quality Platform</h4>
-                    <p>Starting a business journey would be difficult without TalentHub! Thank you TalentHub for bringing quality colleagues.</p>
+                    <p>Starting a business journey would be difficult without TalentHub! Thank you TalentHub for bringing quality colleagues and amazing opportunities to our team.</p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">NW</div>
+                        <div class="author-avatar">B</div>
                         <div class="author-info">
                             <h5>Bửu</h5>
                             <span>Web Developer</span>
@@ -821,26 +1449,26 @@
                     </div>
                 </div>
 
-                <div class="testimonial-card">
+                <div class="testimonial-card fade-in">
                     <h4>Excellent Quality!</h4>
-                    <p>Without TalentHub, I would have become homeless. They found me a job and helped me solve everything quickly! Really thank TalentHub very much.</p>
+                    <p>Without TalentHub, I would have become homeless. They found me a job and helped me solve everything quickly! Really thank TalentHub very much for changing my life.</p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">LV</div>
+                        <div class="author-avatar">D</div>
                         <div class="author-info">
                             <h5>Đẹp</h5>
-                            <span>Developer</span>
+                            <span>Full Stack Developer</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="testimonial-card">
+                <div class="testimonial-card fade-in">
                     <h4>Awesome Design</h4>
-                    <p>The TalentHub team works really hard to ensure high level of quality. They found me a job and got me sorted out quickly with everything!</p>
+                    <p>The TalentHub team works really hard to ensure high level of quality. They found me a job and got me sorted out quickly with everything! Highly recommended platform.</p>
                     <div class="testimonial-author">
-                        <div class="author-avatar">AJ</div>
+                        <div class="author-avatar">T</div>
                         <div class="author-info">
                             <h5>Trai</h5>
-                            <span>Designer</span>
+                            <span>UI/UX Designer</span>
                         </div>
                     </div>
                 </div>
@@ -849,39 +1477,63 @@
     </section>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <p>&copy; 2024 TalentHub. All rights reserved.</p>
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>TalentHub</h3>
+                    <p>Connecting talented professionals with amazing career opportunities. Find your dream job or discover top talent for your company.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>For Job Seekers</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Browse Jobs</a></li>
+                        <li><a href="#">Career Advice</a></li>
+                        <li><a href="#">Resume Builder</a></li>
+                        <li><a href="#">Salary Guide</a></li>
+                        <li><a href="#">Job Alerts</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>For Employers</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Post a Job</a></li>
+                        <li><a href="#">Browse Resumes</a></li>
+                        <li><a href="#">Recruitment Solutions</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Employer Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Help Center</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 TalentHub. All rights reserved.</p>
+            </div>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const filterToggles = document.querySelectorAll('.filter-toggle');
-            const jobCards = document.querySelectorAll('.job-card');
-
-            filterToggles.forEach(toggle => {
-                toggle.addEventListener('click', function() {
-                    const toggleSwitch = this.querySelector('.toggle-switch');
-                    toggleSwitch.classList.toggle('active');
-                    filterJobs();
-                });
-            });
-
-            function filterJobs() {
-                const activeFilters = Array.from(document.querySelectorAll('.toggle-switch.active'))
-                    .map(toggle => toggle.parentElement.dataset.type);
-
-                jobCards.forEach(card => {
-                    const jobType = card.dataset.type;
-                    if (activeFilters.length === 0 || activeFilters.includes(jobType)) {
-                        card.style.display = 'block';
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
-            }
-
+            // Smooth scrolling for anchor links
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -894,6 +1546,82 @@
                     }
                 });
             });
+
+            // Intersection Observer for fade-in animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all fade-in elements
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Add loading state to search form
+            const searchForm = document.querySelector('.search-grid');
+            if (searchForm) {
+                searchForm.addEventListener('submit', function() {
+                    const submitBtn = this.querySelector('.btn-primary');
+                    const originalText = submitBtn.innerHTML;
+                    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Searching...';
+                    submitBtn.disabled = true;
+                    
+                    // Re-enable after 3 seconds (in case of errors)
+                    setTimeout(() => {
+                        submitBtn.innerHTML = originalText;
+                        submitBtn.disabled = false;
+                    }, 3000);
+                });
+            }
+
+            // Add click tracking for popular tags
+            document.querySelectorAll('.tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    console.log('Popular tag clicked:', this.textContent);
+                });
+            });
+
+            // Add hover effects for job cards
+            document.querySelectorAll('.job-card').forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-4px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+
+            // Add click tracking for category cards
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const category = this.querySelector('h3').textContent;
+                    console.log('Category clicked:', category);
+                    // Here you could redirect to jobs filtered by category
+                    // window.location.href = `/jobs?category=${encodeURIComponent(category)}`;
+                });
+            });
+
+            // Add click tracking for city cards
+            document.querySelectorAll('.city-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    const city = this.querySelector('h3').textContent;
+                    console.log('City clicked:', city);
+                    // Here you could redirect to jobs filtered by location
+                    // window.location.href = `/jobs?location=${encodeURIComponent(city)}`;
+                });
+            });
+
+            console.log('TalentHub homepage initialized');
         });
     </script>
 </body>

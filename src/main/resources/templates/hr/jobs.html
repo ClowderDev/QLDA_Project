@@ -162,7 +162,7 @@
             document.getElementById('jobForm').reset();
             document.querySelector('.modal-btn.submit').textContent = 'Create Job';
             
-            fetch('/api/company/current')
+            fetch('/hr/company/current')
                 .then(response => {
                     if (!response.ok) {
                         return response.json().then(err => { throw err; });
@@ -228,7 +228,7 @@
                 document.getElementById('tags').value = job.linhVuc;
                 
                 // Fetch company info
-                return fetch('/api/company/current');
+                return fetch('/hr/company/current');
             })
             .then(response => {
                 if (!response.ok) {

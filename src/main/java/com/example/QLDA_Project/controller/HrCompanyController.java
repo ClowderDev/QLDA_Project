@@ -19,11 +19,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @RestController
-@RequestMapping("/api/company")
+@RequestMapping("/hr/company")
 @PreAuthorize("hasAnyRole('HR_STAFF', 'RECRUITER', 'CV_STAFF')")
-public class CompanyController {
+public class HrCompanyController {
 
-    private static final Logger logger = LoggerFactory.getLogger(CompanyController.class);
+    private static final Logger logger = LoggerFactory.getLogger(HrCompanyController.class);
 
     @Autowired
     private UserService userService;

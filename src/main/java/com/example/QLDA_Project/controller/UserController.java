@@ -18,6 +18,7 @@ import com.example.QLDA_Project.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import java.net.URI;
 
 @Controller
 @RequestMapping("/user")
@@ -44,21 +45,26 @@ public class UserController {
         return ResponseEntity.ok(user);
     }
 
-    @PostMapping("/api/profile")
+    @PostMapping(value = "/api/profile", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
-    public ResponseEntity<?> updateUserProfile(@Valid @RequestBody UserProfileDto profileDto, HttpServletRequest request) {
+    public ResponseEntity<?> updateUserProfile(@Valid @ModelAttribute UserProfileDto profileDto, HttpServletRequest request) {
         try {
+            if (profileDto == null) {
+                return ResponseEntity.badRequest().body("No profile data provided or invalid format.");
+            }
+
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             User user = userService.getUserByUsername(auth.getName());
+            
             User updatedUser = userService.updateUserProfile(user.getId(), profileDto);
             
             if ("XMLHttpRequest".equals(request.getHeader("X-Requested-With"))) {
                 return ResponseEntity.ok(updatedUser);
             }
             
-            return ResponseEntity.ok()
-                .contentType(MediaType.TEXT_HTML)
-                .body("redirect:/user/profile");
+            return ResponseEntity.status(HttpStatus.FOUND)
+                .location(URI.create("/user/profile"))
+                .build();
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {

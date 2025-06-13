@@ -1,7 +1,9 @@
 package com.example.QLDA_Project.controller;
 
 import com.example.QLDA_Project.model.TinTuyenDung;
+import com.example.QLDA_Project.model.CongTy;
 import com.example.QLDA_Project.service.TinTuyenDungService;
+import com.example.QLDA_Project.service.CongTyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,6 +15,8 @@ import org.springframework.security.core.GrantedAuthority;
 import java.util.Collection;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -21,6 +25,9 @@ public class IndexController {
 
     @Autowired
     private TinTuyenDungService tinTuyenDungService;
+
+    @Autowired
+    private CongTyService congTyService;
 
     @GetMapping("/")
     public String index(Model model) {
@@ -32,8 +39,15 @@ public class IndexController {
             model.addAttribute("isAuthenticated", false);
         }
         
-        List<TinTuyenDung> recentJobs = tinTuyenDungService.getAllActiveJobs();
+        // Get recent jobs
+        Pageable recentJobsPageable = PageRequest.of(0, 6); // Get 6 most recent jobs
+        List<TinTuyenDung> recentJobs = tinTuyenDungService.getAllActiveJobsPaginated(recentJobsPageable).getContent();
         model.addAttribute("recentJobs", recentJobs);
+        
+        // Get featured companies
+        Pageable featuredCompaniesPageable = PageRequest.of(0, 3); // Get 3 featured companies
+        List<CongTy> featuredCompanies = congTyService.getFeaturedCompanies(featuredCompaniesPageable);
+        model.addAttribute("featuredCompanies", featuredCompanies);
         
         return "index";
     }

@@ -35,7 +35,11 @@ public class SecurityConfig {
         "/error",
         "/register",
         "/api/auth/**",
-        "/api/public/**"
+        "/api/public/**",
+        "/jobs",
+        "/jobs/**",
+        "/companies",
+        "/companies/**"
     );
 
     private static final List<String> STATIC_RESOURCES = Arrays.asList(

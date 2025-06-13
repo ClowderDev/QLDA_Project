@@ -476,23 +476,55 @@
 
         document.getElementById('profileForm').addEventListener('submit', function(e) {
             e.preventDefault();
+            
             const formData = new FormData(this);
-            const data = Object.fromEntries(formData.entries());
+            const submitButton = this.querySelector('button[type="submit"]');
+            const originalButtonText = submitButton.innerHTML;
+            submitButton.disabled = true;
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            
+            // Convert FormData to URLSearchParams for form-urlencoded format
+            const params = new URLSearchParams();
+            for (const [key, value] of formData.entries()) {
+                if (value) { // Only add non-empty values
+                    params.append(key, value);
+                }
+            }
             
             fetch('/user/api/profile', {
-                method: 'PUT',
+                method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-Requested-With': 'XMLHttpRequest'
                 },
-                body: JSON.stringify(data)
+                body: params.toString()
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    return response.text().then(text => {
+                        try {
+                            return Promise.reject(JSON.parse(text));
+                        } catch (e) {
+                            return Promise.reject({ message: text });
+                        }
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
                 showAlert('success', 'Profile updated successfully!');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
             })
             .catch(error => {
-                showAlert('error', 'Error updating profile. Please try again.');
+                const errorMessage = error.message || 'Error updating profile. Please try again.';
+                showAlert('error', errorMessage);
                 console.error('Error:', error);
+            })
+            .finally(() => {
+                submitButton.disabled = false;
+                submitButton.innerHTML = originalButtonText;
             });
         });
         document.getElementById('passwordForm')?.addEventListener('submit', function(e) {

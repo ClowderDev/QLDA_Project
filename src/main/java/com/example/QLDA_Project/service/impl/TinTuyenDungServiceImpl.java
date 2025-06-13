@@ -9,9 +9,14 @@ import com.example.QLDA_Project.repository.CongTyRepository;
 import com.example.QLDA_Project.repository.TinTuyenDungRepository;
 import com.example.QLDA_Project.service.TinTuyenDungService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.data.jpa.domain.Specification;
+import jakarta.persistence.criteria.Predicate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -92,5 +97,42 @@ public class TinTuyenDungServiceImpl implements TinTuyenDungService {
         job.setYeuCau(dto.getYeuCau());
         job.setTrangThai(dto.getTrangThai());
         job.setNgayDang(dto.getNgayDang());
+    }
+
+    @Override
+    public Page<TinTuyenDung> getAllActiveJobsPaginated(Pageable pageable) {
+        return tinTuyenDungRepository.findByTrangThai("ACTIVE", pageable);
+    }
+
+    @Override
+    public Page<TinTuyenDung> searchJobs(String keyword, String location, Pageable pageable) {
+        Specification<TinTuyenDung> spec = (root, query, cb) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            
+            predicates.add(cb.equal(root.get("trangThai"), "ACTIVE"));
+            
+            if (keyword != null && !keyword.isEmpty()) {
+                String likeKeyword = "%" + keyword.toLowerCase() + "%";
+                predicates.add(cb.or(
+                    cb.like(cb.lower(root.get("tieuDe")), likeKeyword),
+                    cb.like(cb.lower(root.get("moTaCongViec")), likeKeyword),
+                    cb.like(cb.lower(root.get("linhVuc")), likeKeyword),
+                    cb.like(cb.lower(root.get("congty").get("tenCongTy")), likeKeyword)
+                ));
+            }
+            
+            if (location != null && !location.isEmpty()) {
+                String likeLocation = "%" + location.toLowerCase() + "%";
+                predicates.add(cb.or(
+                    cb.like(cb.lower(root.get("thanhPhoLV")), likeLocation),
+                    cb.like(cb.lower(root.get("diaDiemLV")), likeLocation),
+                    cb.like(cb.lower(root.get("quocGiaLV")), likeLocation)
+                ));
+            }
+            
+            return cb.and(predicates.toArray(new Predicate[0]));
+        };
+        
+        return tinTuyenDungRepository.findAll(spec, pageable);
     }
 } 

@@ -26,7 +26,7 @@ import java.util.Map;
 @Controller
 @RequestMapping("/hr/jobs")
 @PreAuthorize("hasAnyRole('HR_STAFF', 'RECRUITER', 'CV_STAFF')")
-public class JobController {
+public class HrJobController {
 
     @Autowired
     private TinTuyenDungService tinTuyenDungService;
