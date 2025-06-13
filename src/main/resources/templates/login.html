@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentHub - Login & Register</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --black: #000000;
+            --white: #ffffff;
+            --gray-50: #f9fafb;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+            --gray-400: #9ca3af;
+            --gray-500: #6b7280;
+            --gray-600: #4b5563;
+            --gray-700: #374151;
+            --gray-800: #1f2937;
+            --gray-900: #111827;
+            --error: #dc2626;
+            --error-light: #fee2e2;
+            --success: #166534;
+            --success-light: #dcfce7;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--gray-50);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .auth-container {
+            background-color: var(--white);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            width: 100%;
+            max-width: 900px;
+            min-height: 600px;
+            display: flex;
+            position: relative;
+        }
+
+        .form-section {
+            flex: 1;
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            transition: all 0.6s ease;
+        }
+
+        .form-section.hidden {
+            display: none;
+        }
+
+        .brand-section {
+            flex: 1;
+            background-color: var(--black);
+            color: var(--white);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .brand-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.05) 50%, transparent 70%);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--black);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-header p {
+            color: var(--gray-600);
+            font-size: 1rem;
+        }
+
+        .social-login {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .social-btn {
+            width: 48px;
+            height: 48px;
+            border: 2px solid var(--gray-200);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--gray-600);
+            text-decoration: none;
+            transition: all 0.2s;
+            background-color: var(--white);
+        }
+
+        .social-btn:hover {
+            border-color: var(--black);
+            color: var(--black);
+            transform: translateY(-2px);
+        }
+
+        .divider {
+            text-align: center;
+            margin: 1.5rem 0;
+            position: relative;
+            color: var(--gray-500);
+            font-size: 0.875rem;
+        }
+
+        .divider::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--gray-200);
+            z-index: 1;
+        }
+
+        .divider span {
+            background-color: var(--white);
+            padding: 0 1rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .error-message {
+            color: var(--error);
+            font-size: 0.875rem;
+            margin-top: 0.25rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid var(--gray-200);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: border-color 0.2s;
+            background-color: var(--white);
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--black);
+        }
+
+        .form-input::placeholder {
+            color: var(--gray-400);
+        }
+
+        .form-input.error {
+            border-color: var(--error);
+        }
+
+        .form-input.error:focus {
+            border-color: var(--error);
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.1);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--black);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--gray-800);
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--white);
+            border: 2px solid var(--white);
+            padding: 0.75rem 2rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--white);
+            color: var(--black);
+        }
+
+        .forgot-password {
+            text-align: center;
+            margin: 1rem 0;
+        }
+
+        .forgot-password a {
+            color: var(--gray-600);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.2s;
+        }
+
+        .forgot-password a:hover {
+            color: var(--black);
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .alert-error {
+            background-color: var(--error-light);
+            color: var(--error);
+            border: 1px solid var(--error-light);
+        }
+
+        .alert-success {
+            background-color: var(--success-light);
+            color: var(--success);
+            border: 1px solid var(--success-light);
+        }
+
+        .brand-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+
+        .brand-content p {
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+
+        .brand-icon {
+            font-size: 4rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        .toggle-text {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .toggle-text span {
+            color: var(--gray-600);
+            font-size: 0.875rem;
+        }
+
+        .toggle-text button {
+            background: none;
+            border: none;
+            color: var(--black);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-left: 0.25rem;
+        }
+
+        .toggle-text button:hover {
+            color: var(--gray-700);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .auth-container {
+                flex-direction: column;
+                max-width: 400px;
+            }
+
+            .brand-section {
+                order: -1;
+                min-height: 200px;
+            }
+
+            .form-section {
+                padding: 2rem;
+            }
+
+            .brand-content h2 {
+                font-size: 1.75rem;
+            }
+
+            .brand-content p {
+                font-size: 1rem;
+            }
+
+            .brand-icon {
+                font-size: 2.5rem;
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--white);
+            animation: spin 1s ease-in-out infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* Fade Animation */
+        .fade-in {
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .button-text {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <!-- Login Form -->
+        <div class="form-section" id="loginForm">
+            <div class="form-header">
+                <h1>Đăng nhập</h1>
+                <p>Đăng nhập vào tài khoản của bạn</p>
+            </div>
+
+            <!-- Alert Messages -->
+            <div th:if="${param.error}" class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Email hoặc mật khẩu không đúng!</span>
+            </div>
+
+            <div th:if="${param.register == 'true'}" class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                <span>Đăng ký tài khoản thành công!</span>
+            </div>
+
+            <div th:if="${param.register == 'false' and registerError}" class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <span th:text="${errorMessage}">Email đã được đăng ký cho vai trò này!</span>
+            </div>
+
+            <div th:if="${param.logout}" class="alert alert-success">
+                <i class="fas fa-check-circle"></i>
+                <span>Đăng xuất thành công!</span>
+            </div>
+
+            <!-- Social Login -->
+            <div class="social-login">
+                <a href="#" class="social-btn">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="#" class="social-btn">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-btn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="social-btn">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+
+            <div class="divider">
+                <span>hoặc sử dụng tài khoản của bạn</span>
+            </div>
+
+            <!-- Login Form -->
+            <form th:action="@{/api/auth/login}" method="post" id="loginFormElement">
+                <input type="hidden" name="redirect" th:if="${param.redirect}" th:value="${param.redirect[0]}" />
+                <div class="form-group">
+                    <input type="text" class="form-input" placeholder="Username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-input" placeholder="Password" name="password" required>
+                </div>
+                <div class="forgot-password">
+                    <a href="#">Quên mật khẩu?</a>
+                </div>
+                <button type="submit" class="btn-primary" id="loginButton">
+                    <span class="button-text">Đăng nhập</span>
+                    <span class="loading" style="display: none;"></span>
+                </button>
+            </form>
+
+            <div class="toggle-text">
+                <span>Chưa có tài khoản?</span>
+                <button type="button" onclick="showRegister()">Đăng ký</button>
+            </div>
+        </div>
+
+        <!-- Register Form -->
+        <div class="form-section hidden" id="registerForm">
+            <div class="form-header">
+                <h1>Tạo tài khoản</h1>
+                <p>Tham gia cộng đồng TalentHub</p>
+            </div>
+
+            <!-- Alert Messages -->
+            <div th:if="${registerError}" class="alert alert-error">
+                <i class="fas fa-exclamation-circle"></i>
+                <span th:text="${errorMessage}">Email đã được đăng ký cho vai trò này!</span>
+            </div>
+
+            <!-- Social Login -->
+            <div class="social-login">
+                <a href="#" class="social-btn">
+                    <i class="fab fa-google"></i>
+                </a>
+                <a href="#" class="social-btn">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="social-btn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="social-btn">
+                    <i class="fab fa-github"></i>
+                </a>
+            </div>
+
+            <div class="divider">
+                <span>hoặc sử dụng email để đăng ký</span>
+            </div>
+
+            <!-- Register Form -->
+            <form th:action="@{/api/auth/register}" method="post" th:object="${userRegistrationDto}" id="registerFormElement">
+                <div class="form-group">
+                    <input type="text" class="form-input" placeholder="Tên người dùng" 
+                           th:field="*{username}" required>
+                    <div class="error-message" th:if="${#fields.hasErrors('username')}" 
+                         th:errors="*{username}"></div>
+                </div>
+                <div class="form-group">
+                    <input type="email" class="form-input" placeholder="Email" 
+                           th:field="*{email}" required>
+                    <div class="error-message" th:if="${#fields.hasErrors('email')}" 
+                         th:errors="*{email}"></div>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-input" placeholder="Password" 
+                           th:field="*{password}" required>
+                    <div class="error-message" th:if="${#fields.hasErrors('password')}" 
+                         th:errors="*{password}"></div>
+                </div>
+                <div class="form-group">
+                    <input type="text" class="form-input" placeholder="Họ và tên" 
+                           th:field="*{hoTen}" required>
+                    <div class="error-message" th:if="${#fields.hasErrors('hoTen')}" 
+                         th:errors="*{hoTen}"></div>
+                </div>
+                <div class="form-group">
+                    <input type="tel" class="form-input" placeholder="Số điện thoại" 
+                           th:field="*{soDienThoai}">
+                    <div class="error-message" th:if="${#fields.hasErrors('soDienThoai')}" 
+                         th:errors="*{soDienThoai}"></div>
+                </div>
+                <div class="form-group">
+                    <select class="form-input" th:field="*{role}" required>
+                        <option value="">Chọn vai trò của bạn</option>
+                        <option th:each="role : ${T(com.example.QLDA_Project.model.Role.RoleName).values()}"
+                                th:value="${role}"
+                                th:text="${role.name()}">Role</option>
+                    </select>
+                    <div class="error-message" th:if="${#fields.hasErrors('role')}" 
+                         th:errors="*{role}"></div>
+                </div>
+                <button type="submit" class="btn-primary" id="registerButton">
+                    <span class="button-text">Đăng ký</span>
+                    <span class="loading" style="display: none;"></span>
+                </button>
+            </form>
+
+            <div class="toggle-text">
+                <span>Đã có tài khoản?</span>
+                <button type="button" onclick="showLogin()">Đăng nhập</button>
+            </div>
+        </div>
+
+        <!-- Brand Section -->
+        <div class="brand-section">
+            <div class="brand-content">
+                <div class="brand-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h2 id="brandTitle">Tìm Kiếm Công Việc Mơ Ước</h2>
+                <p id="brandDescription">Kết nối với các công ty hàng đầu và khám phá những cơ hội nghề nghiệp tuyệt vời phù hợp với kỹ năng và nguyện vọng của bạn.</p>
+                <button class="btn-secondary" id="brandButton" onclick="toggleForm()">Bắt đầu</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isLoginMode = true;
+
+        function showLogin() {
+            isLoginMode = true;
+            document.getElementById('loginForm').classList.remove('hidden');
+            document.getElementById('registerForm').classList.add('hidden');
+            
+            document.getElementById('brandTitle').textContent = 'Tìm Kiếm Công Việc Mơ Ước';
+            document.getElementById('brandDescription').textContent = 'Kết nối với các công ty hàng đầu và khám phá những cơ hội nghề nghiệp tuyệt vời phù hợp với kỹ năng và nguyện vọng của bạn.';
+            document.getElementById('brandButton').textContent = 'Bắt đầu';
+            document.getElementById('brandButton').onclick = showRegister;
+            document.getElementById('loginForm').classList.add('fade-in');
+        }
+
+        function showRegister() {
+            isLoginMode = false;
+            document.getElementById('registerForm').classList.remove('hidden');
+            document.getElementById('loginForm').classList.add('hidden');
+            
+            document.getElementById('brandTitle').textContent = 'Chào mừng trở lại!';
+            document.getElementById('brandDescription').textContent = 'Đăng nhập vào tài khoản của bạn và tiếp tục hành trình tìm kiếm cơ hội nghề nghiệp hoàn hảo.';
+            document.getElementById('brandButton').textContent = 'Đăng nhập';
+            document.getElementById('brandButton').onclick = showLogin;
+
+            document.getElementById('registerForm').classList.add('fade-in');
+        }
+
+        function toggleForm() {
+            if (isLoginMode) {
+                showRegister();
+            } else {
+                showLogin();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.style.borderColor = 'var(--black)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    if (this.value === '') {
+                        this.style.borderColor = 'var(--gray-200)';
+                    }
+                });
+            });
+
+            const socialBtns = document.querySelectorAll('.social-btn');
+            socialBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const platform = this.querySelector('i').classList[1].split('-')[1];
+                    alert(`${platform.charAt(0).toUpperCase() + platform.slice(1)} đăng nhập sẽ được triển khai ở đây`);
+                });
+            });
+
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.has('register') && urlParams.get('register') === 'true') {
+                showRegister();
+            } else {
+                showLogin();
+            }
+
+            const registerForm = document.getElementById('registerFormElement');
+            const registerButton = document.getElementById('registerButton');
+
+            if (registerForm) {
+                registerForm.addEventListener('submit', async function(event) {
+                    event.preventDefault();
+
+                    const buttonText = registerButton.querySelector('.button-text');
+                    const loadingSpinner = registerButton.querySelector('.loading');
+
+                    try {
+                        buttonText.style.display = 'none';
+                        loadingSpinner.style.display = 'inline-block';
+                        registerButton.disabled = true;
+
+                        const formData = new FormData(registerForm);
+                        const requestBody = {};
+                        formData.forEach((value, key) => {
+                            requestBody[key] = value;
+                        });
+
+                        const response = await fetch('/api/auth/register', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(requestBody)
+                        });
+
+                        if (response.ok) {
+                            window.location.href = '/login?register=true';
+                        } else {
+                            const error = await response.text();
+                            throw new Error(error);
+                        }
+                    } catch (error) {
+                        const alertDiv = document.createElement('div');
+                        alertDiv.className = 'alert alert-error';
+                        alertDiv.innerHTML = `
+                            <i class="fas fa-exclamation-circle"></i>
+                            <span>${error.message || 'Registration failed. Please try again.'}</span>
+                        `;
+                        registerForm.insertBefore(alertDiv, registerForm.firstChild);
+                    } finally {
+                        buttonText.style.display = 'inline';
+                        loadingSpinner.style.display = 'none';
+                        registerButton.disabled = false;
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+
+<header th:fragment="header" class="main-header">
+    <div class="header-container">
+        <a th:href="@{/}" class="header-logo">TalentHub</a>
+          <nav class="header-nav">
+            <ul class="nav-links">
+                <li><a th:href="@{/}">Home</a></li>
+                <li th:if="${user != null and #lists.contains(user.userRoles.![role.name], T(com.example.QLDA_Project.model.Role.RoleName).CANDIDATE)}">
+                    <a th:href="@{/ungvien/}" class="active">Dashboard</a>
+                </li>
+                <li th:if="${user != null and #lists.contains(user.userRoles.![role.name], T(com.example.QLDA_Project.model.Role.RoleName).HR_STAFF)}">
+                    <a th:href="@{/hr/dashboard}" class="active">Dashboard</a>
+                </li>
+                <li th:if="${user != null}"><a th:href="@{/jobs}">Jobs</a></li>
+                <li th:if="${user != null and #lists.contains(user.userRoles.![role.name], T(com.example.QLDA_Project.model.Role.RoleName).CANDIDATE)}">
+                    <a th:href="@{/ungvien/companies}">Companies</a>
+                </li>
+            </ul>
+            
+            <div class="header-actions">                <button class="notification-btn" th:if="${user != null}">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" th:text="${messagesCount != null ? messagesCount : 0}">0</span>
+                </button>
+                
+                <div class="user-menu">
+                    <div class="user-avatar" onclick="toggleUserDropdown()" th:text="${user != null && user.hoTen != null ? #strings.substring(user.hoTen,0,2).toUpperCase() : 'GU'}">JD</div>
+                    <div class="user-dropdown" id="userDropdown">
+                        <div class="dropdown-header">
+                            <h4 th:text="${user != null && user.hoTen != null ? user.hoTen : 'Guest User'}">Jerome Doe</h4>
+                            <p th:text="${user != null && user.email != null ? user.email : 'guest@example.com'}">jerome@example.com</p>
+                        </div>                        <ul class="dropdown-menu">
+                            <li th:if="${user != null and #lists.contains(user.userRoles.![role.name], T(com.example.QLDA_Project.model.Role.RoleName).CANDIDATE)}">
+                                <a th:href="@{/ungvien/profile}"><i class="fas fa-user"></i> Profile</a>
+                            </li>
+                            <li th:if="${user != null and #lists.contains(user.userRoles.![role.name], T(com.example.QLDA_Project.model.Role.RoleName).HR_STAFF)}">
+                                <a th:href="@{/hr/profile}"><i class="fas fa-user"></i> Profile</a>
+                            </li>
+                            <li th:if="${user != null and #lists.contains(user.userRoles.![role.name], T(com.example.QLDA_Project.model.Role.RoleName).CANDIDATE)}">
+                                <a th:href="@{/ungvien/settings}"><i class="fas fa-cog"></i> Settings</a>
+                            </li>
+                            <li th:if="${user != null and #lists.contains(user.userRoles.![role.name], T(com.example.QLDA_Project.model.Role.RoleName).CANDIDATE)}">
+                                <a th:href="@{/ungvien/resume}"><i class="fas fa-file-alt"></i> Resume</a>
+                            </li>
+                            <li th:if="${user != null and #lists.contains(user.userRoles.![role.name], T(com.example.QLDA_Project.model.Role.RoleName).CANDIDATE)}">
+                                <a th:href="@{/ungvien/help}"><i class="fas fa-question-circle"></i> Help</a>
+                            </li>
+                            <li th:if="${user != null}"><a th:href="@{/logout}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+                            <li th:if="${user == null}"><a th:href="@{/login}"><i class="fas fa-sign-in-alt"></i> Login</a></li>
+                            <li th:if="${user == null}"><a th:href="@{/register}"><i class="fas fa-user-plus"></i> Register</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </nav>
+    </div>
+</header>
+
+<script th:fragment="headerScripts">
+    function toggleUserDropdown() {
+        const dropdown = document.getElementById('userDropdown');
+        dropdown.classList.toggle('active');
+    }
+
+    document.addEventListener('click', function(event) {
+        const userMenu = document.querySelector('.user-menu');
+        const dropdown = document.getElementById('userDropdown');
+        
+        if (!userMenu.contains(event.target)) {
+            dropdown.classList.remove('active');
+        }
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === '#') {
+                    e.preventDefault();
+                }
+                
+                navLinks.forEach(l => l.classList.remove('active'));
+                
+                this.classList.add('active');
+            });
+        });
+
+        const notificationBtn = document.querySelector('.notification-btn');
+        notificationBtn.addEventListener('click', function() {
+            alert('Notification panel would open here');
+        });
+    });
+</script>

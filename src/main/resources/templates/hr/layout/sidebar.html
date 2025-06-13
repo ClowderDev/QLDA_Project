@@ -1,0 +1,58 @@
+    <div th:fragment="sidebar" class="sidebar">
+        <nav>
+            <ul class="sidebar-nav">
+                <li><a th:href="@{/hr/dashboard}" th:classappend="${activeMenu == 'dashboard' ? 'active' : ''}">
+                    <i class="la la-home"></i> Dashboard
+                </a></li>
+                <li><a th:href="@{/hr/jobs}" th:classappend="${activeMenu == 'applied-jobs' ? 'active' : ''}">
+                    <i class="fas fa-briefcase"></i> Jobs
+                </a></li>
+                <li><a th:href="@{/ungvien/job-alerts}" th:classappend="${activeMenu == 'job-alerts' ? 'active' : ''}">
+                    <i class="fas fa-bell"></i> Job Alerts
+                </a></li>
+                <li><a th:href="@{/ungvien/messages}" th:classappend="${activeMenu == 'messages' ? 'active' : ''}">
+                    <i class="fas fa-envelope"></i> Messages
+                </a></li>
+                <li><a th:href="@{/ungvien/shortlist}" th:classappend="${activeMenu == 'shortlist' ? 'active' : ''}">
+                    <i class="fas fa-bookmark"></i> Shortlist
+                </a></li>
+                <li><a th:href="@{/hr/profile}" th:classappend="${activeMenu == 'profile' ? 'active' : ''}">
+                    <i class="la la-user-tie"></i> Thông tin cá nhân
+                </a></li>
+                <li><a th:href="@{/ungvien/resume}" th:classappend="${activeMenu == 'resume' ? 'active' : ''}">
+                    <i class="fas fa-file-alt"></i> Resume
+                </a></li>
+                <li><a th:href="@{/ungvien/settings}" th:classappend="${activeMenu == 'settings' ? 'active' : ''}">
+                    <i class="fas fa-cog"></i> Settings
+                </a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <script th:fragment="sidebarScripts">
+        function initializeSidebar() {
+            const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+            sidebarLinks.forEach(link => {
+                link.removeEventListener('click', handleSidebarClick);
+                link.addEventListener('click', handleSidebarClick);
+            });
+        }
+
+        function handleSidebarClick(e) {
+            if (this.getAttribute('href') === '#') {
+                e.preventDefault();
+            }
+            
+            const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+            sidebarLinks.forEach(l => l.classList.remove('active'));
+            
+            this.classList.add('active');
+        }
+        document.addEventListener('DOMContentLoaded', initializeSidebar);
+
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            initializeSidebar();
+        }
+    </script>
+
+    

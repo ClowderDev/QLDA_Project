@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentHub - Employer Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/header.css"/>
+    <link rel="stylesheet" href="/css/sidebar.css"/>
+    <link rel="stylesheet" href="/css/footer.css"/>
+    <link rel="stylesheet" href="/css/hrdashboard.css"/>
+</head>
+<body>
+    <!-- Main Header -->
+    <div th:replace="~{common/header :: header}"></div>
+    <div th:replace="~{common/header :: headerScripts}"></div>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <div th:replace="~{hr/layout/sidebar :: sidebar}"></div>
+        <div th:replace="~{hr/layout/sidebar :: sidebarScripts}"></div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>Howdy, Invision!</h1>
+                <p>Ready to jump back in?</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>22</h3>
+                        <p>Posted Jobs</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>9,382</h3>
+                        <p>Applications</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>74</h3>
+                        <p>Messages</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>32</h3>
+                        <p>Shortlisted</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Chart Widget -->
+                <div class="chart-widget">
+                    <div class="widget-header">
+                        <h3>Your Profile Views</h3>
+                        <select class="widget-select">
+                            <option>Last 6 Months</option>
+                            <option>Last 12 Months</option>
+                            <option>Last 16 Months</option>
+                            <option>Last 24 Months</option>
+                            <option>Last 5 years</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart"></canvas>
+                    </div>
+                </div>
+                <!-- Notifications Widget -->
+                <div class="notifications-widget">
+                    <div class="widget-header">
+                        <h3>Notifications</h3>
+                    </div>
+                    <div class="widget-content">
+                        <ul class="notification-list">
+                            <li class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <p><strong>Wade Warren</strong> applied for <span class="colored">Web Developer</span></p>
+                                    <span>2 hours ago</span>
+                                </div>
+                            </li>
+                            <li class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <p><strong>Henry Wilson</strong> applied for <span class="colored">Senior Product Designer</span></p>
+                                    <span>4 hours ago</span>
+                                </div>
+                            </li>
+                            <li class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <p><strong>Raul Costa</strong> applied for <span class="colored">Product Manager, Risk</span></p>
+                                    <span>1 day ago</span>
+                                </div>
+                            </li>
+                            <li class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <p><strong>Jack Milk</strong> applied for <span class="colored">Technical Architect</span></p>
+                                    <span>2 days ago</span>
+                                </div>
+                            </li>
+                            <li class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <p><strong>Michel Arian</strong> applied for <span class="colored">Software Engineer</span></p>
+                                    <span>3 days ago</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Applicants Section -->
+            <div class="applicants-section">
+                <div class="widget-header">
+                    <h3>Recent Applicants</h3>
+                </div>
+                <div class="applicants-grid">
+                    <div class="applicant-card">
+                        <div class="applicant-actions">
+                            <a href="#" class="action-btn" title="View Application">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="#" class="action-btn approve" title="Approve Application">
+                                <i class="fas fa-check"></i>
+                            </a>
+                            <a href="#" class="action-btn reject" title="Reject Application">
+                                <i class="fas fa-times"></i>
+                            </a>
+                            <a href="#" class="action-btn delete" title="Delete Application" onclick="return confirm('Are you sure you want to delete this application?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                        <div class="applicant-header">
+                            <img src="https://via.placeholder.com/60x60/000000/FFFFFF?text=WW" alt="Wade Warren" class="applicant-avatar">
+                            <div class="applicant-info">
+                                <h4><a href="#">Wade Warren</a></h4>
+                                <div class="job-title">Web Developer</div>
+                            </div>
+                        </div>
+                        <div class="applicant-details">
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>San Francisco, CA</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>$80k - $100k</span>
+                            </div>
+                        </div>
+                        <div class="applicant-tags">
+                            <span class="status-tag status-pending">Pending</span>
+                        </div>
+                    </div>
+
+                    <div class="applicant-card">
+                        <div class="applicant-actions">
+                            <a href="#" class="action-btn" title="View Application">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="#" class="action-btn approve" title="Approve Application">
+                                <i class="fas fa-check"></i>
+                            </a>
+                            <a href="#" class="action-btn reject" title="Reject Application">
+                                <i class="fas fa-times"></i>
+                            </a>
+                            <a href="#" class="action-btn delete" title="Delete Application" onclick="return confirm('Are you sure you want to delete this application?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                        <div class="applicant-header">
+                            <img src="https://via.placeholder.com/60x60/000000/FFFFFF?text=HW" alt="Henry Wilson" class="applicant-avatar">
+                            <div class="applicant-info">
+                                <h4><a href="#">Henry Wilson</a></h4>
+                                <div class="job-title">Senior Product Designer</div>
+                            </div>
+                        </div>
+                        <div class="applicant-details">
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>New York, NY</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>$120k - $150k</span>
+                            </div>
+                        </div>
+                        <div class="applicant-tags">
+                            <span class="status-tag status-approved">Approved</span>
+                            <span class="status-tag status-test">Has Test</span>
+                        </div>
+                    </div>
+
+                    <div class="applicant-card">
+                        <div class="applicant-actions">
+                            <a href="#" class="action-btn" title="View Application">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="#" class="action-btn delete" title="Delete Application" onclick="return confirm('Are you sure you want to delete this application?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                        <div class="applicant-header">
+                            <img src="https://via.placeholder.com/60x60/000000/FFFFFF?text=RC" alt="Raul Costa" class="applicant-avatar">
+                            <div class="applicant-info">
+                                <h4><a href="#">Raul Costa</a></h4>
+                                <div class="job-title">Product Manager, Risk</div>
+                            </div>
+                        </div>
+                        <div class="applicant-details">
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Austin, TX</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>$110k - $140k</span>
+                            </div>
+                        </div>
+                        <div class="applicant-tags">
+                            <span class="status-tag status-rejected">Rejected</span>
+                        </div>
+                    </div>
+
+                    <div class="applicant-card">
+                        <div class="applicant-actions">
+                            <a href="#" class="action-btn" title="View Application">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="#" class="action-btn approve" title="Approve Application">
+                                <i class="fas fa-check"></i>
+                            </a>
+                            <a href="#" class="action-btn reject" title="Reject Application">
+                                <i class="fas fa-times"></i>
+                            </a>
+                            <a href="#" class="action-btn delete" title="Delete Application" onclick="return confirm('Are you sure you want to delete this application?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                        <div class="applicant-header">
+                            <img src="https://via.placeholder.com/60x60/000000/FFFFFF?text=JM" alt="Jack Milk" class="applicant-avatar">
+                            <div class="applicant-info">
+                                <h4><a href="#">Jack Milk</a></h4>
+                                <div class="job-title">Technical Architect</div>
+                            </div>
+                        </div>
+                        <div class="applicant-details">
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Seattle, WA</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>$150k - $180k</span>
+                            </div>
+                        </div>
+                        <div class="applicant-tags">
+                            <span class="status-tag status-pending">Pending</span>
+                        </div>
+                    </div>
+
+                    <div class="applicant-card">
+                        <div class="applicant-actions">
+                            <a href="#" class="action-btn" title="View Application">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="#" class="action-btn approve" title="Approve Application">
+                                <i class="fas fa-check"></i>
+                            </a>
+                            <a href="#" class="action-btn reject" title="Reject Application">
+                                <i class="fas fa-times"></i>
+                            </a>
+                            <a href="#" class="action-btn delete" title="Delete Application" onclick="return confirm('Are you sure you want to delete this application?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                        <div class="applicant-header">
+                            <img src="https://via.placeholder.com/60x60/000000/FFFFFF?text=MA" alt="Michel Arian" class="applicant-avatar">
+                            <div class="applicant-info">
+                                <h4><a href="#">Michel Arian</a></h4>
+                                <div class="job-title">Software Engineer</div>
+                            </div>
+                        </div>
+                        <div class="applicant-details">
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Boston, MA</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>$90k - $120k</span>
+                            </div>
+                        </div>
+                        <div class="applicant-tags">
+                            <span class="status-tag status-approved">Approved</span>
+                        </div>
+                    </div>
+
+                    <div class="applicant-card">
+                        <div class="applicant-actions">
+                            <a href="#" class="action-btn" title="View Application">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            <a href="#" class="action-btn approve" title="Approve Application">
+                                <i class="fas fa-check"></i>
+                            </a>
+                            <a href="#" class="action-btn reject" title="Reject Application">
+                                <i class="fas fa-times"></i>
+                            </a>
+                            <a href="#" class="action-btn delete" title="Delete Application" onclick="return confirm('Are you sure you want to delete this application?')">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </div>
+                        <div class="applicant-header">
+                            <img src="https://via.placeholder.com/60x60/000000/FFFFFF?text=AT" alt="Ali Tufan" class="applicant-avatar">
+                            <div class="applicant-info">
+                                <h4><a href="#">Ali Tufan</a></h4>
+                                <div class="job-title">UI Designer</div>
+                            </div>
+                        </div>
+                        <div class="applicant-details">
+                            <div class="detail-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Los Angeles, CA</span>
+                            </div>
+                            <div class="detail-item">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>$70k - $90k</span>
+                            </div>
+                        </div>
+                        <div class="applicant-tags">
+                            <span class="status-tag status-pending">Pending</span>
+                            <span class="status-tag status-test">Has Test</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{common/footer :: footer}"></div>
+
+    <script>
+        const ctx = document.getElementById('chart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["January", "February", "March", "April", "May", "June"],
+                datasets: [{
+                    label: "Profile Views",
+                    backgroundColor: 'transparent',
+                    borderColor: '#000000',
+                    borderWidth: 2,
+                    data: [196, 132, 215, 362, 210, 252],
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: "#000000",
+                    pointBorderColor: "#ffffff",
+                    pointBorderWidth: 2,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#e5e7eb',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#6b7280'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#6b7280'
+                        }
+                    }
+                },
+                elements: {
+                    point: {
+                        hoverRadius: 8
+                    }
+                }
+            }
+        });
+
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('userDropdown');
+            
+            if (!userMenu.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                    }
+                    
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                });
+            });
+
+            const actionButtons = document.querySelectorAll('.action-btn');
+            actionButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                    }
+                    
+                    const action = this.title;
+                    console.log(`Action: ${action}`);
+                    
+                    if (action.includes('Approve')) {
+                        alert('Application approved successfully!');
+                    } else if (action.includes('Reject')) {
+                        alert('Application rejected successfully!');
+                    } else if (action.includes('View')) {
+                        alert('Opening application details...');
+                    }
+                });
+            });
+
+            const applicantCards = document.querySelectorAll('.applicant-card');
+            applicantCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.closest('.applicant-actions')) {
+                        const name = this.querySelector('h4 a').textContent;
+                        console.log(`Clicked on applicant: ${name}`);
+                    }
+                });
+            });
+
+            const notificationBtn = document.querySelector('.notification-btn');
+            notificationBtn.addEventListener('click', function() {
+                alert('Notification panel would open here');
+            });
+        });
+    </script>
+</body>
+</html>

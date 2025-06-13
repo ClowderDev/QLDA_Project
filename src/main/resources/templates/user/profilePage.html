@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentHub - Profile Settings</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/userprofile.css"/>
+    <link rel="stylesheet" href="/css/dashboard.css"/>
+    <link rel="stylesheet" href="/css/header.css"/>
+    <link rel="stylesheet" href="/css/sidebar.css"/>
+    <link rel="stylesheet" href="/css/footer.css"/>
+</head>
+<body>
+    <!-- Main Header -->
+    <div th:replace="~{common/header :: header}"></div>
+    <div th:replace="~{common/header :: headerScripts}"></div>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <div th:replace="~{user/layout/sidebar :: sidebar}"></div>
+        <div th:replace="~{user/layout/sidebar :: sidebarScripts}"></div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>Profile Settings</h1>
+                <p>Update your personal information and professional details</p>
+            </div>
+
+            <!-- Alert Messages -->
+            <div class="alert alert-success" style="display: none;" id="successAlert">
+                <i class="fas fa-check-circle"></i>
+                <span>Profile updated successfully!</span>
+            </div>
+
+            <div class="alert alert-error" style="display: none;" id="errorAlert">
+                <i class="fas fa-exclamation-circle"></i>
+                <span>Error updating profile. Please try again.</span>
+            </div>
+
+            <!-- Basic Information Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Basic Information</h2>
+                    <p>Update your personal details and contact information</p>
+                </div>
+
+                <form class="form-grid" th:action="@{/user/api/profile}" method="POST" id="profileForm">
+                    <div class="form-group">
+                        <label class="form-label">Full Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" th:value="${user.hoTen}" name="hoTen" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" class="form-input" th:value="${user.email}" readonly>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="tel" class="form-input" th:value="${user.soDienThoai}" name="soDienThoai">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <select class="form-input form-select" name="gioiTinh">
+                            <option value="">-- Select Gender --</option>
+                            <option value="male" th:selected="${user.gioiTinh == 'male'}">Male</option>
+                            <option value="female" th:selected="${user.gioiTinh == 'female'}">Female</option>
+                            <option value="other" th:selected="${user.gioiTinh == 'other'}">Other</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Age</label>
+                        <input type="number" class="form-input" th:value="${user.tuoi}" name="tuoi" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Specialization</label>
+                        <input type="text" class="form-input" th:value="${user.chuyenNganh}" name="chuyenNganh">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Years of Experience</label>
+                        <input type="number" class="form-input" th:value="${user.namKinhNghiem}" name="namKinhNghiem" min="0">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Expected Salary</label>
+                        <input type="number" class="form-input" th:value="${user.luongMongMuon}" name="luongMongMuon" min="0">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label">Languages</label>
+                        <input type="text" class="form-input" th:value="${user.ngonNgu}" name="ngonNgu" placeholder="e.g., English, Spanish, French">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label">About Me</label>
+                        <textarea class="form-input form-textarea" name="gioiThieu" th:text="${user.gioiThieu}" placeholder="Tell us about yourself..."></textarea>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- CV Upload Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Resume/CV</h2>
+                    <p>Upload your resume or CV document</p>
+                </div>
+
+                <div class="upload-section">
+                    <input type="file" id="cvUpload" class="upload-input" accept=".pdf,.doc,.docx">
+                    <label for="cvUpload" class="upload-button">
+                        <i class="fas fa-file-upload"></i> Choose CV File
+                    </label>
+                    <div class="upload-info">
+                        Maximum file size: 5MB. Formats: .pdf, .doc, .docx
+                    </div>
+                    <div class="current-file">
+                        <h4>Current CV: Jerome_Doe_Resume.pdf</h4>
+                        <div class="file-actions">
+                            <a href="#" class="btn btn-secondary">
+                                <i class="fas fa-eye"></i> View CV
+                            </a>
+                            <button class="btn btn-danger" onclick="deleteCV()">
+                                <i class="fas fa-trash"></i> Delete CV
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary">
+                    <i class="fas fa-upload"></i> Upload CV
+                </button>
+            </div>
+
+            <!-- Education Section -->
+            <div class="form-section">
+                <div class="resume-section">
+                    <div class="resume-header">
+                        <h2>Education</h2>
+                        <a href="#" class="add-btn" onclick="addEducation()">
+                            <i class="fas fa-plus"></i> Add Education
+                        </a>
+                    </div>
+
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <div class="resume-item-info">
+                                <h4>Bachelor of Computer Science</h4>
+                                <p>Stanford University</p>
+                            </div>
+                            <div class="resume-item-actions">
+                                <span>2015 - 2019</span>
+                                <button class="action-btn" onclick="editEducation(1)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteEducation(1)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="resume-item-description">
+                            Graduated with honors. Focused on software engineering and web development. Completed capstone project on modern web frameworks.
+                        </div>
+                    </div>
+
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <div class="resume-item-info">
+                                <h4>Master of Software Engineering</h4>
+                                <p>MIT</p>
+                            </div>
+                            <div class="resume-item-actions">
+                                <span>2019 - 2021</span>
+                                <button class="action-btn" onclick="editEducation(2)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteEducation(2)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="resume-item-description">
+                            Advanced studies in software architecture and system design. Thesis on scalable web applications.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Work Experience Section -->
+            <div class="form-section">
+                <div class="resume-section">
+                    <div class="resume-header">
+                        <h2>Work Experience</h2>
+                        <a href="#" class="add-btn" onclick="addExperience()">
+                            <i class="fas fa-plus"></i> Add Experience
+                        </a>
+                    </div>
+
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <div class="resume-item-info">
+                                <h4>Senior Frontend Developer</h4>
+                                <p>TechCorp Solutions</p>
+                            </div>
+                            <div class="resume-item-actions">
+                                <span>2021 - Present</span>
+                                <button class="action-btn" onclick="editExperience(1)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteExperience(1)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="resume-item-description">
+                            Lead frontend development for multiple client projects. Implemented modern React applications with TypeScript. Mentored junior developers and established coding standards.
+                        </div>
+                    </div>
+
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <div class="resume-item-info">
+                                <h4>Frontend Developer</h4>
+                                <p>StartupTech Inc</p>
+                            </div>
+                            <div class="resume-item-actions">
+                                <span>2019 - 2021</span>
+                                <button class="action-btn" onclick="editExperience(2)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteExperience(2)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="resume-item-description">
+                            Developed responsive web applications using Vue.js and modern CSS frameworks. Collaborated with design team to implement pixel-perfect UI components.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Achievements Section -->
+            <div class="form-section">
+                <div class="resume-section">
+                    <div class="resume-header">
+                        <h2>Achievements</h2>
+                        <a href="#" class="add-btn" onclick="addAchievement()">
+                            <i class="fas fa-plus"></i> Add Achievement
+                        </a>
+                    </div>
+
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <div class="resume-item-info">
+                                <h4>Best Developer Award</h4>
+                                <p>TechCorp Solutions</p>
+                            </div>
+                            <div class="resume-item-actions">
+                                <span>Dec 2023</span>
+                                <button class="action-btn" onclick="editAchievement(1)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteAchievement(1)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="resume-item-description">
+                            Recognized for outstanding performance and innovative solutions in frontend development.
+                        </div>
+                    </div>
+
+                    <div class="resume-item">
+                        <div class="resume-item-header">
+                            <div class="resume-item-info">
+                                <h4>Certified React Developer</h4>
+                                <p>React Training Institute</p>
+                            </div>
+                            <div class="resume-item-actions">
+                                <span>Jun 2022</span>
+                                <button class="action-btn" onclick="editAchievement(2)">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteAchievement(2)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="resume-item-description">
+                            Advanced certification in React development with focus on performance optimization and best practices.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Social Media Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Social Media</h2>
+                    <p>Connect your professional social media profiles</p>
+                </div>
+
+                <form class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Facebook</label>
+                        <input type="url" class="form-input" value="https://facebook.com/jerome.doe" placeholder="https://facebook.com/username">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">LinkedIn</label>
+                        <input type="url" class="form-input" value="https://linkedin.com/in/jerome-doe" placeholder="https://linkedin.com/in/username">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Social Links
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Address Section -->
+            <div class="form-section">
+                <div class="section-header">
+                    <h2>Address</h2>
+                    <p>Update your location information</p>
+                </div>
+
+                <form class="form-grid">
+                    <div class="form-group full-width">
+                        <label class="form-label">Address</label>
+                        <input type="text" class="form-input" value="123 Main Street, San Francisco, CA 94105" placeholder="Enter your address">
+                    </div>
+
+                    <div class="form-group full-width">
+                        <button type="button" class="btn btn-secondary">
+                            <i class="fas fa-search"></i> Search Location
+                        </button>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <div style="background-color: var(--gray-100); height: 300px; border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--gray-600);">
+                            <div style="text-align: center;">
+                                <i class="fas fa-map-marker-alt" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                <p>Map would be displayed here</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Save Address
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{common/footer :: footer}"></div>
+
+    <script>
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('userDropdown');
+            
+            if (!userMenu.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        document.getElementById('avatarUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                console.log('Avatar file selected:', file.name);
+                showAlert('success', 'Avatar selected successfully!');
+            }
+        });
+
+        document.getElementById('cvUpload').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                console.log('CV file selected:', file.name);
+                showAlert('success', 'CV file selected successfully!');
+            }
+        });
+
+        function showAlert(type, message) {
+            const alertId = type === 'success' ? 'successAlert' : 'errorAlert';
+            const alert = document.getElementById(alertId);
+            alert.querySelector('span').textContent = message;
+            alert.style.display = 'flex';
+            
+            setTimeout(() => {
+                alert.style.display = 'none';
+            }, 5000);
+        }
+
+
+        function deleteCV() {
+            if (confirm('Are you sure you want to delete your current CV?')) {
+                console.log('CV deleted');
+                showAlert('success', 'CV deleted successfully!');
+            }
+        }
+
+        function addEducation() {
+            console.log('Add education clicked');
+            showAlert('success', 'Add education form would open here');
+        }
+
+        function editEducation(id) {
+            console.log('Edit education:', id);
+            showAlert('success', 'Edit education form would open here');
+        }
+
+        function deleteEducation(id) {
+            if (confirm('Are you sure you want to delete this education entry?')) {
+                console.log('Delete education:', id);
+                showAlert('success', 'Education entry deleted successfully!');
+            }
+        }
+
+        function addExperience() {
+            console.log('Add experience clicked');
+            showAlert('success', 'Add experience form would open here');
+        }
+
+        function editExperience(id) {
+            console.log('Edit experience:', id);
+            showAlert('success', 'Edit experience form would open here');
+        }
+
+        function deleteExperience(id) {
+            if (confirm('Are you sure you want to delete this experience entry?')) {
+                console.log('Delete experience:', id);
+                showAlert('success', 'Experience entry deleted successfully!');
+            }
+        }
+
+        function addAchievement() {
+            console.log('Add achievement clicked');
+            showAlert('success', 'Add achievement form would open here');
+        }
+
+        function editAchievement(id) {
+            console.log('Edit achievement:', id);
+            showAlert('success', 'Edit achievement form would open here');
+        }
+
+        function deleteAchievement(id) {
+            if (confirm('Are you sure you want to delete this achievement?')) {
+                console.log('Delete achievement:', id);
+                showAlert('success', 'Achievement deleted successfully!');
+            }
+        }
+
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            fetch('/user/api/profile', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                showAlert('success', 'Profile updated successfully!');
+            })
+            .catch(error => {
+                showAlert('error', 'Error updating profile. Please try again.');
+                console.error('Error:', error);
+            });
+        });
+        document.getElementById('passwordForm')?.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            
+            fetch('/user/api/profile/password', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    showAlert('success', 'Password changed successfully!');
+                    this.reset();
+                } else {
+                    throw new Error('Password change failed');
+                }
+            })
+            .catch(error => {
+                showAlert('error', 'Error changing password. Please try again.');
+                console.error('Error:', error);
+            });
+        });
+
+
+        const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+        sidebarLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === '#') {
+                    e.preventDefault();
+                }
+                
+                sidebarLinks.forEach(l => l.classList.remove('active'));
+                
+                this.classList.add('active');
+            });
+        });
+
+        const navLinks = document.querySelectorAll('.nav-links a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === '#') {
+                    e.preventDefault();
+                }
+                
+                navLinks.forEach(l => l.classList.remove('active'));
+                
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

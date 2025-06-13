@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentHub - Jobs Management</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/header.css"/>
+    <link rel="stylesheet" href="/css/sidebar.css"/>
+    <link rel="stylesheet" href="/css/footer.css"/>
+    <link rel="stylesheet" href="/css/jobs.css"/>
+</head>
+<body>
+    <div th:replace="~{common/header :: header}"></div>
+    <div th:replace="~{common/header :: headerScripts}"></div>
+    <!-- Dashboard Layout -->
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <div th:replace="~{hr/layout/sidebar :: sidebar}"></div>
+        <div th:replace="~{hr/layout/sidebar :: sidebarScripts}"></div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Jobs Header -->
+            <div class="jobs-header">
+                <div>
+                    <h1>Jobs Management</h1>
+                    <p>Manage your job postings and applications</p>
+                </div>
+                <button class="create-job-btn" onclick="openCreateJobModal()">
+                    <i class="fas fa-plus"></i>
+                    Create New Job
+                </button>
+            </div>
+
+            <!-- Jobs Grid -->
+            <div class="jobs-grid">
+                <div th:each="job : ${jobs}" class="job-card">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title" th:text="${job.tieuDe}">Job Title</h3>
+                            <p class="job-company" th:text="${job.congty.tenCongTy}">Company Name</p>
+                        </div>
+                        <div class="job-actions">
+                            <button class="job-action-btn edit" th:onclick="'openEditJobModal(' + ${job.id} + ')'" title="Edit Job">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="job-action-btn delete" th:onclick="'confirmDeleteJob(' + ${job.id} + ')'" title="Delete Job">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="job-details">
+                        <div class="job-detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span th:text="${job.diaDiemLV}">Location</span>
+                        </div>
+                        <div class="job-detail">
+                            <i class="fas fa-dollar-sign"></i>
+                            <span th:text="${job.mucLuong}">Salary</span>
+                        </div>
+                        <div class="job-detail">
+                            <i class="fas fa-clock"></i>
+                            <span th:text="${job.hinhThucLV}">Job Type</span>
+                        </div>
+                        <div class="job-detail">
+                            <i class="fas fa-calendar"></i>
+                            <span th:text="${#dates.format(job.hanNop, 'dd/MM/yyyy')}">Deadline</span>
+                        </div>
+                    </div>
+                    <p class="job-description" th:text="${job.moTaCongViec}">Job Description</p>
+                    <div class="job-tags">
+                        <span th:each="tag : ${#strings.arraySplit(job.linhVuc, ',')}" class="job-tag" th:text="${tag.trim()}">Tag</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div th:replace="~{common/footer :: footer}"></div>
+
+    <!-- Create/Edit Job Modal -->
+    <div class="modal" id="jobModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Create New Job</h3>
+                <button class="modal-close" onclick="closeJobModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="jobForm">
+                    <div class="form-group">
+                        <label class="form-label" for="jobTitle">Job Title *</label>
+                        <input type="text" class="form-control" id="jobTitle" required placeholder="e.g., Senior Software Engineer">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="company">Company *</label>
+                        <input type="text" class="form-control" id="company" required readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="location">Location *</label>
+                        <input type="text" class="form-control" id="location" required placeholder="e.g., New York, NY or Remote">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="salary">Salary Range *</label>
+                        <input type="number" class="form-control" id="salary" required placeholder="e.g., 120000" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="deadline">Application Deadline *</label>
+                        <input type="date" class="form-control" id="deadline" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="jobType">Job Type *</label>
+                        <select class="form-control" id="jobType" required>
+                            <option value="">Select job type</option>
+                            <option value="full-time">Full-time</option>
+                            <option value="part-time">Part-time</option>
+                            <option value="contract">Contract</option>
+                            <option value="internship">Internship</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="description">Job Description *</label>
+                        <textarea class="form-control form-textarea" id="description" required placeholder="Describe the role, responsibilities, and what you're looking for..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="requirements">Requirements *</label>
+                        <textarea class="form-control form-textarea" id="requirements" required placeholder="List the required skills, experience, and qualifications..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label" for="tags">Skills/Tags</label>
+                        <input type="text" class="form-control" id="tags" placeholder="e.g., Java, Spring Boot, React (comma-separated)">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn cancel" onclick="closeJobModal()">Cancel</button>
+                <button class="modal-btn submit" onclick="submitJobForm()">Create Job</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('userDropdown');
+            
+            if (!userMenu.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        function openCreateJobModal() {
+            document.getElementById('modalTitle').textContent = 'Create New Job';
+            document.getElementById('jobForm').reset();
+            document.querySelector('.modal-btn.submit').textContent = 'Create Job';
+            
+            fetch('/api/company/current')
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(err => { throw err; });
+                    }
+                    return response.text().then(text => {
+                        try {
+                            return JSON.parse(text);
+                        } catch (e) {
+                            console.error('Failed to parse JSON for company info, raw response:', text);
+                            throw new Error('Failed to parse JSON response for company data. Check console for raw content.');
+                        }
+                    });
+                })
+                .then(company => {
+                    document.getElementById('company').value = company.tenCongTy;
+                })
+                .catch(error => {
+                    console.error('Error fetching company info:', error);
+                    alert('Error loading company information: ' + (error.error || 'Please try again.'));
+                });
+            
+            document.getElementById('jobModal').classList.add('active');
+        }
+
+        function openEditJobModal(jobId) {
+            document.getElementById('modalTitle').textContent = 'Edit Job';
+            document.querySelector('.modal-btn.submit').textContent = 'Save Changes';
+            document.getElementById('jobForm').dataset.jobId = jobId;
+            
+            fetch(`/hr/jobs/${jobId}`, {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw err; });
+                }
+                return response.text().then(text => {
+                    try {
+                        return JSON.parse(text);
+                    } catch (e) {
+                        console.error('Failed to parse JSON, raw response:', text);
+                        throw new Error('Failed to parse JSON response for job data. Check console for raw content.');
+                    }
+                });
+            })
+            .then(job => {
+                document.getElementById('jobTitle').value = job.tieuDe;
+                document.getElementById('description').value = job.moTaCongViec;
+                document.getElementById('requirements').value = job.yeuCau;
+                document.getElementById('jobType').value = job.hinhThucLV;
+                document.getElementById('location').value = job.diaDiemLV;
+                document.getElementById('salary').value = job.mucLuong;
+                
+                // Format hanNop for input type="date"
+                const hanNopDate = new Date(job.hanNop);
+                const year = hanNopDate.getFullYear();
+                const month = String(hanNopDate.getMonth() + 1).padStart(2, '0');
+                const day = String(hanNopDate.getDate()).padStart(2, '0');
+                document.getElementById('deadline').value = `${year}-${month}-${day}`;
+
+                document.getElementById('tags').value = job.linhVuc;
+                
+                // Fetch company info
+                return fetch('/api/company/current');
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => { throw err; });
+                }
+                return response.json();
+            })
+            .then(company => {
+                document.getElementById('company').value = company.tenCongTy;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error loading job data or company information: ' + (error.error || 'Please try again.'));
+            });
+            
+            document.getElementById('jobModal').classList.add('active');
+        }
+
+        function closeJobModal() {
+            document.getElementById('jobModal').classList.remove('active');
+        }
+
+        function submitJobForm() {
+            const form = document.getElementById('jobForm');
+            
+            if (!form.checkValidity()) {
+                form.reportValidity();
+                return;
+            }
+
+            const formData = {
+                tieuDe: document.getElementById('jobTitle').value,
+                moTaCongViec: document.getElementById('description').value,
+                yeuCau: document.getElementById('requirements').value,
+                hinhThucLV: document.getElementById('jobType').value,
+                thanhPhoLV: document.getElementById('location').value.split(',')[0]?.trim() || '',
+                quocGiaLV: document.getElementById('location').value.split(',')[1]?.trim() || 'Vietnam',
+                diaDiemLV: document.getElementById('location').value,
+                mucLuong: document.getElementById('salary').value,
+                linhVuc: document.getElementById('tags').value.split(',').map(tag => tag.trim()).filter(tag => tag).join(', '),
+                hanNop: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // Default to 30 days from now
+            };
+
+            // Format hanNop to yyyy-MM-dd
+            const hanNopDate = new Date(formData.hanNop);
+            const year = hanNopDate.getFullYear();
+            const month = String(hanNopDate.getMonth() + 1).padStart(2, '0');
+            const day = String(hanNopDate.getDate()).padStart(2, '0');
+            formData.hanNop = `${year}-${month}-${day}`;
+
+            const isEdit = document.getElementById('modalTitle').textContent === 'Edit Job';
+            const jobId = document.getElementById('jobForm').dataset.jobId;
+            const url = isEdit ? `/hr/jobs/${jobId}/edit` : '/hr/jobs/create';
+            const method = 'POST';
+
+            fetch(url, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.text())
+            .then(result => {
+                if (result.startsWith('success')) {
+                    alert(isEdit ? 'Job updated successfully!' : 'Job created successfully!');
+                    closeJobModal();
+                    // Reload the page to show the new/updated job
+                    window.location.reload();
+                } else {
+                    alert('Error: ' + result);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while saving the job. Please try again.');
+            });
+        }
+
+        function confirmDeleteJob(jobId) {
+            if (confirm('Are you sure you want to delete this job posting? This action cannot be undone.')) {
+                fetch(`/hr/jobs/${jobId}/delete`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.text())
+                .then(result => {
+                    if (result.startsWith('success')) {
+                        alert('Job posting deleted successfully!');
+                        window.location.reload();
+                    } else {
+                        alert('Error: ' + result);
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred while deleting the job. Please try again.');
+                });
+            }
+        }
+
+        document.getElementById('jobModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeJobModal();
+            }
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeJobModal();
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+            sidebarLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                    }
+                    
+                    sidebarLinks.forEach(l => l.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                });
+            });
+
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                    }
+                    
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                });
+            });
+
+            console.log('Jobs management page initialized');
+        });
+    </script>
+</body>
+</html>

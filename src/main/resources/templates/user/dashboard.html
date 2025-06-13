@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TalentHub - Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="/css/dashboard.css"/>
+    <link rel="stylesheet" href="/css/header.css"/>
+    <link rel="stylesheet" href="/css/sidebar.css"/>
+    <link rel="stylesheet" href="/css/footer.css"/>
+</head>
+<body>
+    <!-- Main Header -->
+    <div th:replace="~{common/header :: header}"></div>
+    <div th:replace="~{common/header :: headerScripts}"></div>
+
+    <!-- Dashboard Layout -->
+    <div class="dashboard-layout">
+
+        <div th:replace="~{user/layout/sidebar :: sidebar}"></div>
+        <div th:replace="~{user/layout/sidebar :: sidebarScripts}"></div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Page Header -->
+            <div class="page-header">
+                <h1>Welcome back, Jerome!</h1>
+                <p>Ready to jump back in?</p>
+            </div>
+
+            <!-- Stats Grid -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-briefcase"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>22</h3>
+                        <p>Applied Jobs</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-bell"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>9,382</h3>
+                        <p>Job Alerts</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>74</h3>
+                        <p>Messages</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-bookmark"></i>
+                    </div>
+                    <div class="stat-content">
+                        <h3>32</h3>
+                        <p>Shortlist</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Grid -->
+            <div class="dashboard-grid">
+                <!-- Chart Widget -->
+                <div class="chart-widget">
+                    <div class="widget-header">
+                        <h3>Your Profile Views</h3>
+                        <select class="widget-select">
+                            <option>Last 6 Months</option>
+                            <option>Last 12 Months</option>
+                            <option>Last 24 Months</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="chart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Notifications Widget -->
+                <div class="notifications-widget">
+                    <div class="widget-header">
+                        <h3>Notifications</h3>
+                    </div>
+                    <div class="widget-content">
+                        <ul class="notification-list">
+                            <li class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-briefcase"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <p><strong>Wade Warren</strong> applied for Web Developer position</p>
+                                    <span>2 hours ago</span>
+                                </div>
+                            </li>
+                            <li class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-user-check"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <p><strong>Henry Wilson</strong> viewed your profile</p>
+                                    <span>4 hours ago</span>
+                                </div>
+                            </li>
+                            <li class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <p>New message from <strong>TechCorp</strong></p>
+                                    <span>1 day ago</span>
+                                </div>
+                            </li>
+                            <li class="notification-item">
+                                <div class="notification-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="notification-content">
+                                    <p>Your application was shortlisted</p>
+                                    <span>2 days ago</span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Jobs Applied Recently -->
+            <div class="jobs-section">
+                <div class="widget-header">
+                    <h3>Jobs Applied Recently</h3>
+                </div>
+                <div class="jobs-grid">
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div class="company-logo">TC</div>
+                            <div class="job-info">
+                                <h4>Senior Frontend Developer</h4>
+                                <p>TechCorp Solutions</p>
+                            </div>
+                        </div>
+                        <div class="job-details">
+                            <div class="job-detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>San Francisco, CA</span>
+                            </div>
+                            <div class="job-detail">
+                                <i class="fas fa-calendar"></i>
+                                <span>Applied 2 days ago</span>
+                            </div>
+                            <div class="job-detail">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>$120k - $150k</span>
+                            </div>
+                            <div class="job-detail">
+                                <i class="fas fa-clock"></i>
+                                <span>Full-time</span>
+                            </div>
+                        </div>
+                        <div class="job-status">
+                            <span class="status-badge status-pending">Under Review</span>
+                            <button class="view-btn">View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div class="company-logo">DS</div>
+                            <div class="job-info">
+                                <h4>UX/UI Designer</h4>
+                                <p>Design Studio Inc</p>
+                            </div>
+                        </div>
+                        <div class="job-details">
+                            <div class="job-detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>New York, NY</span>
+                            </div>
+                            <div class="job-detail">
+                                <i class="fas fa-calendar"></i>
+                                <span>Applied 5 days ago</span>
+                            </div>
+                            <div class="job-detail">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>$90k - $110k</span>
+                            </div>
+                            <div class="job-detail">
+                                <i class="fas fa-clock"></i>
+                                <span>Full-time</span>
+                            </div>
+                        </div>
+                        <div class="job-status">
+                            <span class="status-badge status-approved">Interview Scheduled</span>
+                            <button class="view-btn">View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div class="company-logo">ST</div>
+                            <div class="job-info">
+                                <h4>Product Manager</h4>
+                                <p>StartupTech</p>
+                            </div>
+                        </div>
+                        <div class="job-details">
+                            <div class="job-detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Austin, TX</span>
+                            </div>
+                            <div class="job-detail">
+                                <i class="fas fa-calendar"></i>
+                                <span>Applied 1 week ago</span>
+                            </div>
+                            <div class="job-detail">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>$100k - $130k</span>
+                            </div>
+                            <div class="job-detail">
+                                <i class="fas fa-clock"></i>
+                                <span>Full-time</span>
+                            </div>
+                        </div>
+                        <div class="job-status">
+                            <span class="status-badge status-rejected">Not Selected</span>
+                            <button class="view-btn">View Details</button>
+                        </div>
+                    </div>
+
+                    <div class="job-card">
+                        <div class="job-header">
+                            <div class="company-logo">FL</div>
+                            <div class="job-info">
+                                <h4>Content Writer</h4>
+                                <p>Freelance Project</p>
+                            </div>
+                        </div>
+                        <div class="job-details">
+                            <div class="job-detail">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <span>Remote</span>
+                            </div>
+                            <div class="job-detail">
+                                <i class="fas fa-calendar"></i>
+                                <span>Applied 3 days ago</span>
+                            </div>
+                            <div class="job-detail">
+                                <i class="fas fa-dollar-sign"></i>
+                                <span>$50/hour</span>
+                            </div>
+                            <div class="job-detail">
+                                <i class="fas fa-clock"></i>
+                                <span>Contract</span>
+                            </div>
+                        </div>
+                        <div class="job-status">
+                            <span class="status-badge status-pending">Pending</span>
+                            <button class="view-btn">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="~{common/footer :: footer}"></div>
+    <script>
+        const ctx = document.getElementById('chart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+                datasets: [{
+                    label: "Profile Views",
+                    backgroundColor: 'transparent',
+                    borderColor: '#000000',
+                    borderWidth: 2,
+                    data: [196, 132, 215, 362, 210, 252],
+                    pointRadius: 4,
+                    pointHoverRadius: 6,
+                    pointBackgroundColor: "#000000",
+                    pointBorderColor: "#ffffff",
+                    pointBorderWidth: 2,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        grid: {
+                            color: '#e5e7eb',
+                            drawBorder: false
+                        },
+                        ticks: {
+                            color: '#6b7280'
+                        }
+                    },
+                    x: {
+                        grid: {
+                            display: false
+                        },
+                        ticks: {
+                            color: '#6b7280'
+                        }
+                    }
+                },
+                elements: {
+                    point: {
+                        hoverRadius: 8
+                    }
+                }
+            }
+        });
+
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-menu');
+            const dropdown = document.getElementById('userDropdown');
+            
+            if (!userMenu.contains(event.target)) {
+                dropdown.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const jobCards = document.querySelectorAll('.job-card');
+            jobCards.forEach(card => {
+                card.addEventListener('click', function(e) {
+                    if (!e.target.classList.contains('view-btn')) {
+                        console.log('Job card clicked');
+                    }
+                });
+            });
+
+            const viewButtons = document.querySelectorAll('.view-btn');
+            viewButtons.forEach(button => {
+                button.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    alert('Job details would be shown here');
+                });
+            });
+
+            const notificationBtn = document.querySelector('.notification-btn');
+            notificationBtn.addEventListener('click', function() {
+                alert('Notification panel would open here');
+            });
+
+            const navLinks = document.querySelectorAll('.nav-links a');
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if (this.getAttribute('href') === '#') {
+                        e.preventDefault();
+                    }
+                    
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    
+                    this.classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
