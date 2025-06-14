@@ -37,27 +37,29 @@ public class DataLoader {
             }
             if (roleRepository.findByName(Role.RoleName.CANDIDATE).isEmpty()) {
                 roleRepository.save(new Role(null, Role.RoleName.CANDIDATE, null));
-            }
-
-            if(userRepository.findByUsername("adminUser").isEmpty()){
+            }            if(userRepository.findByUsername("adminUser").isEmpty()){
                 User adminUser = new User();
                 adminUser.setUsername("adminUser");
+                adminUser.setEmail("admin@talentHub.com");
+                adminUser.setHoTen("Administrator");
                 adminUser.setPassword("123");
                 adminUser.setEnabled(true);
                 adminUser.addRole(roleRepository.findByName(Role.RoleName.ADMIN).orElseThrow());
                 userRepository.save(adminUser);
-            }
-            if (userRepository.findByUsername("hrUser").isEmpty()) {
+            }            if (userRepository.findByUsername("hrUser").isEmpty()) {
                 User hrUser = new User();
                 hrUser.setUsername("hrUser");
+                hrUser.setEmail("hr@talentHub.com");
+                hrUser.setHoTen("HR Staff");
                 hrUser.setPassword("123");
                 hrUser.setEnabled(true);
                 hrUser.addRole(roleRepository.findByName(Role.RoleName.HR_STAFF).orElseThrow());
                 userRepository.save(hrUser);
-            }
-            if(userRepository.findByUsername("normalUser").isEmpty()){
+            }            if(userRepository.findByUsername("normalUser").isEmpty()){
                 User normalUser = new User();
                 normalUser.setUsername("normalUser");
+                normalUser.setEmail("candidate@talentHub.com");
+                normalUser.setHoTen("Normal User");
                 normalUser.setPassword("123");
                 normalUser.setEnabled(true);
                 normalUser.addRole(roleRepository.findByName(Role.RoleName.CANDIDATE).orElseThrow());
